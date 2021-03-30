@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huade.mapper.ClassInfoMapper">
+
+    <insert id="addClassInfo" parameterType="ClassInfo">
+        insert into online_exam.classes (Id, class_Id, people_Num, class_Col_Id, class_Spe_Id) VALUES
+        (#{Id},#{class_Id},#{people_Num},#{class_Col_Id},#{class_Spe_Id})
+    </insert>
+
+    <insert id="batchAddClassInfo" parameterType="java.util.List">
+        insert into online_exam.classes(Id, class_Id, people_Num, class_Col_Id, class_Spe_Id) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.Id},#{item.class_Id},#{item.people_Num},#{item.class_Col_Id},#{item.class_Spe_Id})
+        </foreach>
+    </insert>
+
+    <delete id="deleteClassInfo" parameterType="String">
+        delete from online_exam.classes where Id =#{Id}
+    </delete>
+
+    <update id="updateClassInfo" parameterType="ClassInfo">
+        update online_exam.classes set class_Id=#{class_Id}, people_Num=#{people_Num}, class_Col_Id=#{class_Col_Id},
+        class_Spe_Id=#{class_Spe_Id}
+        where Id =#{Id}
+    </update>
+
+    <select id="selectClassStudentsCount" resultType="String">
+        select count(*)
+        from online_exam.student_basic
+        group by stu_ClassId
+    </select>
+
+    <select id="selectClassStudentsCount_classId" resultType="String">
+        select online_exam.student_basic.stu_ClassId
+        from online_exam.student_basic
+        group by stu_ClassId
+    </select>
+
+    <update id="updateClassStudentCount" parameterType="String">
+        update online_exam.classes set people_Num=#{people_Num}
+        where Id =#{Id}
+    </update>
+
+    <select id="select_classInfo_keywords" resultType="View_ClassInfo">
+        select * from online_exam.view_class_info
+        <where>
+            <if test="Id != null and Id != ''">
+                and Id =#{Id}
+            </if>
+            <if test="class_Id != null and class_Id != ''">
+                and class_Id = #{class_Id}
+            </if>
+            <if test="col_Id != null and col_Id != ''">
+                and col_Id =#{col_Id}
+            </if>
+            <if test="spe_Id != null and spe_Id != ''">
+                and spe_Id =#{spe_Id}
+            </if>
+        </where>
+        <if test="current != -1 and length != -1">
+            LIMIT #{current},#{length};
+        </if>
+    </select>
+
+    <select id="selectClassInfo" resultType="ClassInfo">
+        select * from online_exam.classes
+        <where>
+            <if test="Id != null and Id != ''">
+                and Id =#{Id}
+            </if>
+            <if test="col_Id != null and col_Id != ''">
+                and class_Col_Id =#{col_Id}
+            </if>
+            <if test="spe_Id != null and spe_Id != ''">
+                and class_Spe_Id =#{spe_Id}
+            </if>
+        </where>
+        <if test="current != -1 and length != -1">
+            LIMIT #{current},#{length};
+        </if>
+    </select>
+
+    <select id="selectAllClassInfo" resultType="View_ClassInfo">
+        select * from online_exam.view_class_info
+    </select>
+
+    <select id="selectId" resultType="String">
+        select Id from online_exam.classes where class_Id = #{class_Id}
+    </select>
+
+    <select id="showCountNum" resultType="String">
+        select count(*) from online_exam.view_class_info
+        <where>
+            <if test="Id != null and Id != ''">
+                and Id=#{Id}
+            </if>
+            <if test="class_Id != null and class_Id != ''">
+                and class_Id =#{class_Id}
+            </if>
+            <if test="col_Id != null and col_Id != ''">
+                and col_Id =#{col_Id}
+            </if>
+            <if test="spe_Id != null and spe_Id != ''">
+                and spe_Id =#{spe_Id}
+            </if>
+        </where>
+    </select>
+</mapper>

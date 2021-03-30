@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.min.css" rel="stylesheet">
+<!--    滑块插件-->
+    <link rel="stylesheet" href="js/ion-rangeslider/ion.rangeSlider.min.css">
+    <link href="css/style.min.css" rel="stylesheet">
+    <script src="js/jQuery_v3.5.1.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
+    <script type="text/javascript" src="js/main.min.js"></script>
+    <script>
+        // window.onload = null;
+        function Automatically(){
+            const param = {
+                "totalMark": 100,
+                "difficulty": 0.63,
+                "singleNum": 20,
+                "singleScore": 2,
+                "completeNum": 20,
+                "completeScore": 2,
+                "subjectNum": 4,
+                "subjectScore": 5,
+                "pointIds": "c795c6b761954bd391e7cad4cff61a69,8dbaecc4ce4144289a4bb8e443b2b3af,13cd9f851bc3450191a4d86bc17ee4e3,8c5f66f7f5c2468db52978be22f3d6eb,1191efe8d4274677889445af15169357,3587bdc69e54417eb7bc57884ea70009,19dd664a47ac422d908674b4e64b9862,3eeddc25760449208662ad58100e2787,2ff83cbf15ad4bc4b6c5fd7e6c4e1f98,c89ea4cf1db94085bc5065061cfbc62d,0a9ecc3aa44b47769ea1c675b55bb67c,b0857d7c637c4eb48359535730692727,c6cc6d8667ba418f849b63bf58abc7e2,7cf3690696714b68b0482c837da87c85,8f42f97a50d143818889f2513a71903d,0583cf627bad47b6adb40f52b4171b63,eb925240e5ec4fcaa7dd350899f705e5,27cea2c137c24316a6afc30ceed7dca6,f6f7334a2d1c4cab9ece91e4e744b26a,a65c955573114314a36e8adadb65273e,313d9370986046d8945a60c6b1022d82,f62a345d275e41be9579545b1b90f2f3,39a49d209a274b7b8baefbaff038a97f,51cd7cc3ce434b8db63c9dd272086a37,dbfc96c0194f461e98f39bc969d8fe0c,fe4b008154bd4cf9b0c495f87c18e28c,ba3c84b5d4af4b0490240bf7fa61f227,0f2b590b0a64465b8f43f62615f7c52f,96c36f44a30c47b99da79ce22e1251bb,99b9a2afb8214bc188efb0eed3dcc1e0,3715b86dfc454fde81b305f17fe80864,377e6966f92a4e179e7b7ab3a963868e,09f93e691e5b4dcea405fae594080763,6e6d6b4318c8432e8b939bce708a33e3,74fa1c3ff84443fc82d8ea14b5e761e6,deabc5fce9de46479441621a1adb0ace,10a7666a39cd4f9693c9268fd01fa235,ddd4f220d0ca4f6ba7c336d023112a8c,dc34bf3e40fa4de0a26c0e9d2ae8fef0,e5a123f2472048e18510f5ef2eb9f8b0",
+                "cou_Id": "TT001"
+            };
+            console.log(param);
+            $.ajax({
+                url:"/test",
+                type:"POST",
+                dataType:"JSON",
+                data:{
+                    "totalMark": param.totalMark,
+                    "difficulty": param.difficulty,
+                    "singleNum": param.singleNum,
+                    "singleScore": param.singleScore,
+                    "completeNum": param.completeNum,
+                    "completeScore": param.completeScore,
+                    "subjectNum": param.subjectNum,
+                    "subjectScore": param.subjectScore,
+                    "pointIds": param.pointIds,
+                    "cou_Id": param.cou_Id
+                },
+                success:function (res){
+                    console.log(res);
+                    $("#adaptationDegree").html(res.adaptationDegree);
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+    <div class="card-body">
+
+        <div class="guide-box" data-navigateable="true">
+            <ul class="nav-step step-dots">
+                <li class="nav-step-item active">
+                    <span>步骤一：填写命题计划的基本信息</span>
+                    <a class="active" data-toggle="tab" href="#step-1"></a>
+                </li>
+
+                <li class="nav-step-item">
+                    <span>步骤二：确定题目类型和分值</span>
+                    <a data-toggle="tab" href="#step-2"></a>
+                </li>
+
+                <li class="nav-step-item">
+                    <span>步骤三：选择需考察的知识点</span>
+                    <a data-toggle="tab" href="#step-3"></a>
+                </li>
+
+                <li class="nav-step-item">
+                    <span>步骤四：确认命题计划信息</span>
+                    <a data-toggle="tab" href="#step-4"></a>
+                </li>
+
+            </ul>
+            <!--对应内容-->
+            <div class="nav-step-content">
+                <div class="nav-step-pane hidden active" id="step-1">
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <label class="col-lg-2">命题计划名称</label>
+                            <div class="col-lg-10">
+                                <input id="ruleName-input" class="form-control" type="text" placeholder="请填写命题计划名称">
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="col-lg-12">
+                            <label class="col-lg-2">选择考核科目</label>
+                            <div class="col-lg-10">
+                                <select class="form-control" id="course-select" name="example-select" size="1">
+                                    <option value="0">请选择</option>
+                                    <option value="TT001">Spring Boot开发实战</option>
+                                    <option value="CY10049087">Windows程序设计</option>
+                                    <option value="DO69754940">Linux系统应用B</option>
+                                    <option value="DY85361912">C语言程序进阶</option>
+                                    <option value="FD37618215">软件工程</option>
+                                    <option value="JF01786131">Oracle数据库管理</option>
+                                    <option value="LF46137944">Python语言程序设计</option>
+                                    <option value="LT96785089">Java语言程序设计</option>
+                                    <option value="NL87749954">计算机组成原理B</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="col-lg-12">
+                            <label class="col-lg-2">试卷整体难度系数</label>
+                            <div class="col-lg-10">
+                                <input class="form-control" id="difficulty-input" type="number" value="0.60" min="0.25" max="0.99" >
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col-lg-12">
+                            <label class="col-lg-2">选择适用班级</label>
+                            <div class="col-xs-10">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="class-checkbox" value="1801701">
+                                    1801701
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="class-checkbox" value="1801702">
+                                    1801702
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="class-checkbox" value="1801301">
+                                    1801301
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="class-checkbox" value="1801311">
+                                    1801311
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="class-checkbox" value="1801312">
+                                    1801312
+                                </label>
+                            </div>
+                        </div>
+                        <br/><br>
+                    </div>
+                </div>
+
+                <div class="nav-step-pane hidden" id="step-2">
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <div class="col-lg-11">
+                                <div class="col-lg-12">
+                                    <label class="col-lg-2">单选题</label>
+                                    <div class="col-lg-10">
+                                        <label class="col-lg-1">数目</label>
+                                        <div class="col-lg-3">
+                                            <input class="form-control" type="number" id="singleNum" value="0" min="0" max="100" onchange="cal()">
+                                        </div>
+                                        <span class="col-lg-2"></span>
+                                        <label class="col-lg-1">分值</label>
+                                        <div class="col-lg-3">
+                                            <input class="form-control" type="number" id="singleScore" value="0" min="0" max="100" onchange="cal()">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <label class="col-lg-2">填空题</label>
+                                    <div class="col-lg-10">
+                                        <label class="col-lg-1">数目</label>
+                                        <div class="col-lg-3">
+                                            <input class="form-control" type="number" id="completeNum" value="0" min="0" max="100" onchange="cal()">
+                                        </div>
+                                        <span class="col-lg-2"></span>
+                                        <label class="col-lg-1">分值</label>
+                                        <div class="col-lg-3">
+                                            <input class="form-control" type="number" id="completeScore" value="0" min="0" max="100" onchange="cal()">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <label class="col-lg-2">简答题</label>
+                                    <div class="col-lg-10">
+                                        <label class="col-lg-1">数目</label>
+                                        <div class="col-lg-3">
+                                            <input class="form-control" type="number" id="subjectNum" value="0" min="0" max="100" onchange="cal()">
+                                        </div>
+                                        <span class="col-lg-2"></span>
+                                        <label class="col-lg-1">分值</label>
+                                        <div class="col-lg-3">
+                                            <input class="form-control" type="number" id="subjectScore" value="0" min="0" max="100" onchange="cal()">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>题目数量</label><br>
+                                <span style="font-size: 20px" id="totalNum">0</span><br>
+                                <label>试卷总分</label><br>
+                                <span style="font-size: 20px" id="totalScore">0</span><br>
+                            </div>
+                        </div><br><br><br><br>
+                    </div>
+                    <script>
+                        function cal(){
+                            $("#totalNum").html($("#singleNum").val()*1+$("#completeNum").val()*1+$("#subjectNum").val()*1)
+                            $("#totalScore").html(($("#singleNum").val()*1)*($("#singleScore").val()*1)+
+                                ($("#completeNum").val()*1)*($("#completeScore").val()*1)+
+                                ($("#subjectNum").val()*1)*($("#subjectScore").val()*1))
+                        }
+                    </script>
+                </div>
+
+                <div class="nav-step-pane hidden" id="step-3">
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <label class="col-lg-2">选择需考察的知识点</label>
+                            <div class="col-xs-10">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="knowledge-checkbox" value="7e717d8963804a79862773bb6ea0c29a">
+                                    Spring Boot 简介
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="knowledge-checkbox" value="07ba02be0ff44bcb819fedd97aa6248e">
+                                    Spring Boot 开发起步
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="knowledge-checkbox" value="8044a638c1514897a42431c6dd6b3baa">
+                                    Spring Boot 的相关注解
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="knowledge-checkbox" value="e164b879bcf6452dbd397a835ff93243">
+                                    Spring Boot的Web应用开发
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="knowledge-checkbox" value="8abbc2de84f344d99be46ece2b2b364b">
+                                    Spring Boot的数据库访问
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="knowledge-checkbox" value="ea9b4a53a45749b3b8c13b67a6bcc412">
+                                    Spring Boot的Web服务开发
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="knowledge-checkbox" value="e3b07837d26143a8a384e01582cdb115">
+                                    Spring Boot的数据处理
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="knowledge-checkbox" value="7b14d9b24df0421d9bd47e67378d16d6">
+                                    Spring Boot的文件应用
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="knowledge-checkbox" value="6e5e83a479914bc68be5421530bc800c">
+                                    Spring Boot的WebFlux开发
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="knowledge-checkbox" value="5bb75bb3fadf4218b26cfc5443cfb3bb">
+                                    Spring Boot开发案例
+                                </label>
+
+                            </div>
+                        </div>
+                        <br/><br>
+                    </div>
+                </div>
+
+                <div class="nav-step-pane hidden" id="step-4">
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <label class="col-lg-2">命题计划名称</label>
+                            <div class="col-lg-10">
+                                <span id="confirm-ruleName"></span>
+                            </div>
+                        </div><br>
+                        <div class="col-lg-12">
+                            <label class="col-lg-2">考核科目</label>
+                            <div class="col-lg-10">
+                                <span id="confirm-course"></span>
+                            </div>
+                        </div><br>
+                        <div class="col-lg-12">
+                            <label class="col-lg-2">试卷整体难度系数</label>
+                            <div class="col-lg-10">
+                                <span id="confirm-difficulty"></span>
+                            </div>
+                        </div><br>
+                        <div class="col-lg-12">
+                            <label class="col-lg-2">适用班级</label>
+                            <div class="col-lg-10">
+                                <span id="confirm-classId"></span>
+                            </div>
+                        </div><br>
+                        <div class="col-lg-12">
+                            <label class="col-lg-2">单选题</label>
+                            <div class="col-lg-10">
+                                <label class="col-lg-1">数目：</label><span class="col-lg-3" id="confirm-singleNum"></span>
+                                <span class="col-lg-1"></span>
+                                <label class="col-lg-1">分值：</label><span class="col-lg-3" id="confirm-singleScore"></span>
+                            </div>
+                        </div><br>
+                        <div class="col-lg-12">
+                            <label class="col-lg-2">填空题</label>
+                            <div class="col-lg-10">
+                                <label class="col-lg-1">数目：</label><span class="col-lg-3" id="confirm-completeNum"></span>
+                                <span class="col-lg-1"></span>
+                                <label class="col-lg-1">分值：</label><span class="col-lg-3" id="confirm-completeScore"></span>
+                            </div>
+                        </div><br>
+                        <div class="col-lg-12">
+                            <label class="col-lg-2">简答题</label>
+                            <div class="col-lg-10">
+                                <label class="col-lg-1">数目：</label><span class="col-lg-3" id="confirm-subjectNum"></span>
+                                <span class="col-lg-1"></span>
+                                <label class="col-lg-1">分值：</label><span class="col-lg-3" id="confirm-subjectScore"></span>
+                            </div>
+                        </div>
+                        <span id="confirm-knowledge" style="display: none"></span> <br>
+                        <br>
+                    </div>
+                </div>
+            </div>
+            <!--End 对应内容-->
+            <hr>
+            <div class="nav-step-button">
+                <button class="btn btn-secondary disabled" data-wizard="prev" type="button">上一步</button>
+                <button class="btn btn-secondary" data-wizard="next" type="button">下一步</button>
+                <button class="btn btn-primary hidden" data-wizard="finish" type="submit">完成</button>
+            </div>
+        </div>
+
+    </div>
+<!--    向导-->
+    <script type="text/javascript" src="js/jquery.bootstrap.wizard.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.guide-box').bootstrapWizard({
+                'tabClass': 'nav-step',
+                'nextSelector': '[data-wizard="next"]',
+                'previousSelector': '[data-wizard="prev"]',
+                'finishSelector': '[data-wizard="finish"]',
+                'onTabClick': function(e, t, i) {
+                    if (!$('.guide-box').is('[data-navigateable="true"]')) return ! 1
+                },
+                'onTabShow': function(e, t, i) {
+                    t.children(":gt(" + i + ").complete").removeClass("complete");
+                    t.children(":lt(" + i + "):not(.complete)").addClass("complete");
+                    if (i === 3){
+                        $("#confirm-ruleName").html($("#ruleName-input").val())
+                        $("#confirm-course").html($("#course-select option:selected").html())
+                        $("#confirm-difficulty").html($("#difficulty-input").val())
+                        $("#confirm-classId").html(
+                            function (){
+                                var chk_value =[];
+                                $('input[name="class-checkbox"]:checked').each(function (){
+                                    chk_value.push($(this).val());
+                                })
+                                return chk_value.toString();
+                            }
+                        )
+                        $("#confirm-singleNum").html($("#singleNum").val())
+                        $("#confirm-singleScore").html($("#singleScore").val())
+                        $("#confirm-completeNum").html($("#completeNum").val())
+                        $("#confirm-completeScore").html($("#completeScore").val())
+                        $("#confirm-subjectNum").html($("#subjectNum").val())
+                        $("#confirm-subjectScore").html($("#subjectScore").val())
+
+                        $("#confirm-knowledge").html(
+                            function (){
+                                var chk_value =[];
+                                $('input[name="knowledge-checkbox"]:checked').each(function (){
+                                    chk_value.push($(this).val());
+                                })
+                                return chk_value.toString();
+                            }
+                        )
+                    }
+                },
+                'onFinish': function(e, t, i) {
+                    // 点击完成后处理提交
+                    const param = {
+                        "ruleName":$("#confirm-ruleName").html(),
+                        "totalMark": $("#totalScore").html(),
+                        "difficulty": $("#confirm-difficulty").html(),
+                        "singleNum": $("#confirm-singleNum").html(),
+                        "singleScore": $("#confirm-singleScore").html(),
+                        "completeNum": $("#confirm-completeNum").html(),
+                        "completeScore": $("#confirm-completeScore").html(),
+                        "subjectNum": $("#confirm-subjectNum").html(),
+                        "subjectScore": $("#confirm-subjectScore").html(),
+                        "pointIds": $("#confirm-knowledge").html(),
+                        "cou_Id": $("#course-select option:selected").val()
+                    };
+                    console.log(param);
+                    $.ajax({
+                        url:"/ExamRule/addExamRule",
+                        type:"POST",
+                        dataType:"JSON",
+                        data:{
+                            "ruleName":param.ruleName,
+                            "totalMark": param.totalMark,
+                            "difficulty": param.difficulty,
+                            "singleNum": param.singleNum,
+                            "singleScore": param.singleScore,
+                            "completeNum": param.completeNum,
+                            "completeScore": param.completeScore,
+                            "subjectNum": param.subjectNum,
+                            "subjectScore": param.subjectScore,
+                            "pointIds": param.pointIds,
+                            "cou_Id": param.cou_Id
+                        },
+                        success:function (res){
+                            if (res.code === 1){
+                                lightyear.loading('show');
+                                setTimeout(function (){
+                                    lightyear.loading('hide');
+                                    lightyear.notify('添加命题计划信息成功','success',3000);
+                                }, 1e3)
+                            } else{
+                                lightyear.loading('show');
+                                setTimeout(function (){
+                                    lightyear.loading('hide');
+                                    lightyear.notify('服务器错误，请稍后重试','danger',100);
+                                })
+                            }
+                        }
+                    })
+                }
+            });
+        });
+    </script>
+
+<!--    消息通知-->
+    <script src="js/bootstrap-notify.min.js"></script>
+    <script src="js/lightyear.js"></script>
+    <script>
+        $("#example-success-notify").on('click',function (){
+            lightyear.loading('show');
+            setTimeout(function (){
+                lightyear.loading('hide');
+                lightyear.notify('修改成功，页面即将自动跳转～','success',3000);
+            }, 1e3)
+        })
+    </script>
+
+
+</body>
+
+</html>

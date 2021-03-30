@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>课程分配管理</title>
+<link rel="icon" href="favicon.ico" type="image/ico">
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<link href="../css/materialdesignicons.min.css" rel="stylesheet">
+<link href="../css/style.min.css" rel="stylesheet">
+    <link href="../css/page.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="lyear-layout-web">
+  <div class="lyear-layout-container"> 
+    
+    <!--页面主要内容-->
+    
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+              <h4>课程分配管理</h4>
+            </div>
+            <div class="card-toolbar clearfix">
+              <div class="toolbar-btn-action"> <a class="btn btn-primary m-r-5" data-toggle="modal" data-target="#addModal"><i class="mdi mdi-plus"></i> 添加</a>
+<!--                  <a class="btn btn-success m-r-5" data-toggle="modal" data-target="#addAllModal"><i class="mdi mdi-check"></i> 批量添加</a>-->
+<!--                  <a class="btn btn-danger" href="#!"><i class="mdi mdi-window-close"></i> 删除</a> -->
+              </div>
+              </br>
+                <div class="col-xs-2 .col-md-3">
+                    <div class="input-group"> <span class="input-group-addon">学院</span>
+                        <select class="form-control" id="college" name="example-select" onchange="distribution_select();get_specialtyInfo_elementId_distribution($('#college').val(),'specialty');" size="1">
+                            <option value="">不限学院</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-2 .col-md-3">
+                    <div class="input-group"> <span class="input-group-addon">专业</span>
+                        <select class="form-control" id="specialty" name="example-select"  onchange="distribution_select()"  size="1">
+                            <option value="">不限专业</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-2 .col-md-3">
+                    <div class="input-group"> <span class="input-group-addon" >班级</span>
+                        <select class="form-control" id="classes" name="example-select" size="1">
+                            <option value="">不限班级</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-2 .col-md-3">
+                    <div class="input-group"> <span class="input-group-addon" >课程</span>
+                        <select class="form-control" id="courses" name="example-select" size="1">
+                            <option value="">不限课程</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-2 .col-md-3">
+                    <div class="input-group"> <span class="input-group-addon" >教师</span>
+                        <select class="form-control" id="teachers" name="example-select"  size="1">
+                            <option value="">不限教师</option>
+                        </select>
+                    </div>
+                </div>
+
+				  
+                <button class="btn btn-label btn-info" onclick="select_submit()">
+                <label><i class="mdi mdi-magnify"></i></label>
+                查询
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th> <label class="lyear-checkbox checkbox-primary">
+                          <input type="checkbox" id="all">
+                          <span></span> </label>
+                      </th>
+						<th>分配班级</th>
+						 <th>课程名</th>
+						<th>分配教师名</th>
+						
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="distributionsInfo">
+
+                  </tbody>
+                </table>
+              </div>
+                <div id="pager" class="pager clearfix"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!--End 页面主要内容--> 
+    
+    <!-- 添加模态框 -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title">添加课程信息</h4>
+          </div>
+          <div class="modal-body">
+              <div class="form-group col-md-12">
+                  <label for="CollegeSelect">学院</label>
+                  <select class="form-control" id="CollegeSelect" name="example-select" onchange="get_specialtyInfo_elementId_distribution($('#CollegeSelect').val(), 'specialtySelect');" size="1">
+                      <option value="0">请选择所属学院</option>
+
+                  </select>
+              </div>
+              <div class="form-group col-md-12">
+                  <label for="specialtySelect">专业</label>
+                  <select class="form-control" id="specialtySelect" name="example-select" onchange="distribution()" size="1">
+                      <option value="">请选择</option>
+                  </select>
+              </div>
+			  <div class="form-group col-md-12">
+              <label for="classSelect">分配班级</label>
+              <select class="form-control" id="classSelect" size="1">
+                <option value="">请选择</option>
+              </select>
+            </div>
+			  <div class="form-group col-md-12">
+              <label for="courseSelect">课程</label>
+              <select class="form-control" id="courseSelect" size="1">
+                <option value="">请选择</option>
+              </select>
+            </div>
+            <div class="form-group col-md-12">
+              <label for="teacherSelect">分配教师</label>
+              <select class="form-control" id="teacherSelect" size="1">
+                <option value="">请选择</option>
+              </select>
+            </div>
+			  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" onclick="submit()" data-dismiss="modal" >确认</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束添加模态框 --> 
+    
+    <!-- 修改模态框 -->
+    <div class="modal fade" id="changeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title">修改学院信息</h4>
+          </div>
+          <div class="modal-body">
+              <div style="display: none">
+                  <input type="text" value="" readonly id="old_classes_Id"/>
+                  <input type="text" value="" readonly id="old_cou_Id"/>
+                  <input type="text" value="" readonly id="old_user_Id"/>
+              </div>
+              <div class="form-group col-md-12">
+                  <label for="CollegeSelect">学院</label>
+                  <select class="form-control" id="changeCollegeSelect" name="example-select" onchange="distribution_update();get_specialtyInfo_elementId_distribution($('#changeCollegeSelect').val(),'changeSpecialtySelect');" size="1">
+                      <option value="">不限学院</option>
+
+                  </select>
+              </div>
+              <div class="form-group col-md-12">
+                  <label for="specialtySelect">专业</label>
+                  <select class="form-control" id="changeSpecialtySelect" name="example-select" onchange="distribution_update()" size="1">
+                      <option value="">不限专业</option>
+                  </select>
+              </div>
+            <div class="form-group col-md-12">
+              <label for="changeClassSelect">分配班级</label>
+              <select class="form-control" id="changeClassSelect" size="1">
+                <option value="">请选择</option>
+              </select>
+            </div>
+			  <div class="form-group col-md-12">
+              <label for="changeCourseSelect">课程</label>
+              <select class="form-control" id="changeCourseSelect" size="1">
+                <option value="">请选择</option>
+              </select>
+            </div>
+            <div class="form-group col-md-12">
+              <label for="changeTeacherSelect">分配教师</label>
+              <select class="form-control" id="changeTeacherSelect" size="1">
+                <option value="">请选择</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" onclick="update_submit()" data-dismiss="modal">确认</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束修改模态框 --> 
+    
+    <!-- 修改模态框 -->
+    <div class="modal fade" id="addAllModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title" >批量添加课程分配信息</h4>
+          </div>
+          <div class="modal-body">
+            <div class="input-group">
+              <input type="text" class="form-control" name="web_site_logo" id="web_site_logo" value="/home/xxx.xlsx">
+              <div class="input-group-btn">
+                <button class="btn btn-label btn-info" type="button">
+                <label><i class="mdi mdi-play-circle-outline"></i></label>
+                上传文件
+                </button>
+              </div>
+            </div>
+            <small class="help-block">上传格式：<code>'xlsx'</code></small> </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary">确认</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束修改模态框 --> 
+  </div>
+</div>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="../js/main.min.js"></script>
+<script type="text/javascript" src="../js/jQuery_v3.5.1.js"></script>
+<script type="text/javascript" src="../js/jsUtil/Secretary.js"></script>
+<script src="../js/bootstrap-notify.min.js"></script>
+<script src="../js/lightyear.js"></script>
+<script src="../js/page/jquery.z-pager.js"></script>
+<script type="text/javascript">
+
+    let param = {
+        "classes_Id":"",
+        "user_Id":"",
+        "cou_Id":""
+    }
+
+    let select_keyWords = {
+        "class_Id":"",
+        "user_Id":"",
+        "cou_Id":"",
+        "current":"0",
+        "length":"10"
+    }
+
+    let update_param = {
+        "old_classes_Id":"",
+        "old_user_Id":"",
+        "old_cou_Id":"",
+        "new_classes_Id":"",
+        "new_user_Id":"",
+        "new_cou_Id":""
+    }
+
+    window.onload = onload_function;
+
+    function onload_function() {
+        get_collegeInfo_elementId('','college-select');
+        get_collegeInfo_elementId('','college');
+        get_collegeInfo_elementId_distribution('','CollegeSelect');
+        get_collegeInfo_elementId('','changeCollegeSelect');
+    }
+
+	function getChangeModal() {
+    	$('#changeModal').modal('toggle');
+	}
+
+	function distribution(){
+        //get_specialtyInfo_elementId_distribution($('#CollegeSelect').val(), 'specialtySelect');
+        get_coursesInfo_elementId_distribution($('#CollegeSelect').val(), $('#specialtySelect').val(), 'courseSelect');
+        get_teachersInfo_element_distribution($('#CollegeSelect').val(), $('#specialtySelect').val(), 'teacherSelect');
+        get_classesInfo_element_distribution($('#CollegeSelect').val(), $('#specialtySelect').val(), 'classSelect');
+    }
+
+    function distribution_select(){
+        // get_specialtyInfo_elementId_distribution($('#college').val(),'specialty');
+        get_coursesInfo_elementId_distribution($('#college').val(),$('#specialty').val(),'courses');
+        get_teachersInfo_element_distribution($('#college').val(),$('#specialty').val(),'teachers');
+        get_classesInfo_element_distribution($('#college').val(),$('#specialty').val(),'classes');
+    }
+
+    function distribution_update(){
+        get_coursesInfo_elementId_distribution($('#changeCollegeSelect').val(),$('#changeSpecialtySelect').val(),'changeCourseSelect');
+        get_teachersInfo_element_distribution($('#changeCollegeSelect').val(),$('#changeSpecialtySelect').val(),'changeTeacherSelect');
+        get_classesInfo_element_distribution($('#changeCollegeSelect').val(),$('#changeSpecialtySelect').val(),'changeClassSelect');
+    }
+
+    function submit(){
+        param.classes_Id = $("#classSelect").val();
+        param.cou_Id = $("#courseSelect").val();
+        param.user_Id = $("#teacherSelect").val();
+        add_classCourseInfo(param);
+    }
+
+    function select_submit(){
+        select_keyWords.cou_Id = $("#courses").val();
+        select_keyWords.user_Id = $("#teachers").val();
+        select_keyWords.class_Id = $("#classes").val();
+        init_pager_secretary(get_distributionsInfo_itemsNum(select_keyWords));
+        get_distributionsInfo_elementId(select_keyWords,'distributionsInfo');
+    }
+
+    function update_submit(){
+        update_param.old_classes_Id = $("#old_classes_Id").val();
+        update_param.old_cou_Id = $("#old_cou_Id").val();
+        update_param.old_user_Id = $("#old_user_Id").val();
+        update_param.new_classes_Id = $("#changeClassSelect").val();
+        update_param.new_cou_Id = $("#changeCourseSelect").val();
+        update_param.new_user_Id = $("#changeTeacherSelect").val();
+        get_distributionsInfo_elementId(select_keyWords,'distributionsInfo');
+    }
+
+    function currentPage(currentPage){
+        select_keyWords.current = (currentPage-1)*select_keyWords.length;
+        get_distributionsInfo_elementId(select_keyWords,'distributionsInfo');
+    }
+    $(document).keydown(function (event){
+        if (event.keyCode === 13) {
+            submit_keywords();
+        }
+    })
+	
+	//全选反选
+	$("#all").on('click',function() {
+        $("input[name='permission']").prop("checked", this.checked);
+    });
+
+    $("input[name='permission']").on('click',function() {
+        var $subs = $("input[name='permission']");
+        $("#all").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
+    });
+	
+	
+</script>
+</body>
+</html>

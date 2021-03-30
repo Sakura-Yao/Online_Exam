@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>批量导入课程知识点</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="../css/animate.css" rel="stylesheet">
+    <link rel="stylesheet" href="../js/jconfirm/jquery-confirm.min.css">
+    <link href="../css/style.min.css" rel="stylesheet">
+    <link href="../css/page.css" rel="stylesheet">
+    <script src="../js/jsUtil/TeacherFun.js"></script>
+
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/perfect-scrollbar.min.js"></script>
+    <script type="text/javascript" src="../js/main.min.js"></script>
+    <script type="text/javascript" src="../js/jQuery_v3.5.1.js"></script>
+    <script type="text/javascript" src="../js/jsUtil/Secretary.js"></script>
+    <script src="../js/bootstrap-notify.min.js"></script>
+    <script src="../js/lightyear.js"></script>
+    <script type="text/javascript">
+        function submit_file() {
+            var formData = new FormData();
+            formData.append("file", $("#file")[0].files[0]);
+            $.ajax({
+                url: "/api/batchKnowledge",
+                type: "POST",
+                cache: false,
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                success: function (res) {
+                    if (res.Error_num === '0'){
+                        var success_message = "批量导入课程知识点信息成功！总数目："+res.Total_num
+                        lightyear.loading('show');
+                        setTimeout(function (){
+                            lightyear.loading('hide');
+                            lightyear.notify(success_message,'success',1000);
+                        },1000);
+                    } else {
+                        var fail_message = "总数目："+res.Total_num + " 失败数目："+res.Error_num
+                        lightyear.loading('show');
+                        setTimeout(function (){
+                            lightyear.loading('hide');
+                            lightyear.notify(fail_message,'danger',1000);
+                        },1000);
+                    }
+                    console.log(res);
+                }
+            })
+        }
+
+        function download_file() {
+            $.ajax({
+                url:"/api/download",
+                type: "POST",
+                data: {
+                    fileName:"批量添加课程知识点信息.xlsx"
+                },
+                dataType: "file",
+                success :function (res){
+                    console.log(res);
+                }
+            })
+        }
+    </script>
+</head>
+
+<body>
+<div class="lyear-layout-web">
+    <div class="lyear-layout-container">
+
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header"><h4>批量导入课程知识点</h4></div>
+                        <div class="card-body">
+
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                    </div>
+                                </div>
+                                <div class="col-xs-12">
+                                    <form class="form-group" action="/api/download" method="post"
+                                          enctype="multipart/form-data">
+                                        <input hidden type="text" id="fileName" name="fileName" value="批量添加课程知识点信息.xlsx">
+                                        <input class="btn btn-warning  btn-round" type="submit" value="点击下载模版">
+                                    </form>
+                                </div>
+                                <br/>
+                                <div class="form-group">
+                                    <label class="col-xs-12">上传文件</label>
+                                    <div class="col-xs-12">
+                                        <input type="file" id="file" name="file" accesskey=".xlsx">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <button class="btn btn-primary" type="submit" onclick="submit_file()">提交
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--End 页面主要内容-->
+    </div>
+</div>
+
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="../js/main.min.js"></script>
+<script src="../js/jconfirm/jquery-confirm.min.js"></script>
+<script type="text/javascript" src="../js/jsUtil/PublicFun.js"></script>
+</body>
+</html>

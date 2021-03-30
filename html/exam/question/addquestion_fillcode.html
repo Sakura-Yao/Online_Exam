@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>添加试题</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/materialdesignicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../js/jconfirm/jquery-confirm.min.css">
+    <link href="../css/animate.css" rel="stylesheet">
+    <link href="../css/style.min.css" rel="stylesheet">
+    <script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.all.min.js"> </script>
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+    <script type="text/javascript" charset="utf-8" src="../ueditor/lang/zh-cn/zh-cn.js"></script>
+<!--    消息通知-->
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/perfect-scrollbar.min.js"></script>
+    <script type="text/javascript" src="../js/main.min.js"></script>
+    <script type="text/javascript" src="../js/jQuery_v3.5.1.js"></script>
+    <script src="../js/bootstrap-notify.min.js"></script>
+    <script src="../js/lightyear.js"></script>
+    <script>
+        window.onload =onload_function;
+        function onload_function() {
+            get_teachCourse("course-select");
+        }
+
+        let param = {
+            cou_Id:"",
+            type_Id:"",
+            subject:"",
+            choice_a:"-",
+            choice_b:"-",
+            choice_c:"-",
+            choice_d:"-",
+            answer:"",
+            degree:"",
+            kwl_Id:"",
+            analysis:"",
+        }
+        function submit(){
+            param.cou_Id = $("#course-select").val();
+            param.type_Id = "fd09a3873f184169b4fd335934078123";
+            param.subject = $("#subject-input").val();
+            param.answer = $("#answer-input").val();
+            param.degree = $("#degree-input").val();
+            param.kwl_Id = $("#knowledge-select").val();
+            param.analysis = $("#analysis-input").val();
+            add_question_info(param);
+        }
+
+    </script>
+<!--    <script type="text/javascript" src="../js/main.min.js"></script>-->
+    <style type="text/css">
+        div{
+            width:100%;
+        }
+    </style>
+
+    <script type="text/javascript" src="../js/jsUtil/TeacherFun.js"></script>
+    <script type="text/javascript" src="../js/jsUtil/Question.js"></script>
+    <script>
+        url = localhostPath+"/api/uploadImage"
+        UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
+        UE.Editor.prototype.getActionUrl = function(action) {
+            if (action === 'uploadimage' || action === 'uploadscrawl' || action === 'uploadvideo') {
+                return url;
+            } else {
+                return this._bkGetActionUrl.call(this, action);
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+<div class="lyear-layout-web">
+    <div class="lyear-layout-container">
+        <div class="container-fluid">
+            <div class="col-lg-12">
+                <div class="col-lg-6">
+                    <label for="course-select">科目</label>
+                    <select class="form-control" id="course-select" name="course-select" onchange="preview_course()" size="1">
+                        <option value="">请选择课程</option>
+                    </select>
+                    <label for="knowledge-select">所属知识点</label>
+                    <select class="form-control" id="knowledge-select" name="knowledge-select" onchange="preview_kwl()" size="1">
+                        <option value="">请选择知识点</option>
+                    </select>
+                    <label for="subject-input">题干</label>
+                    <input id="subject-input" readonly class="form-control" data-toggle="modal" data-target="#subject-modal" autocomplete="off" onclick="$('#subject-modal').attr('style','display: block; padding-right: 15px;')">
+
+                    <label for="answer-input">标准答案</label>
+                    <input id="answer-input" readonly class="form-control" data-toggle="modal" data-target="#answer-modal" autocomplete="off" onclick="$('#answer-modal').attr('style','display: block; padding-right: 15px;')">
+
+                    <label for="analysis-input">解析</label>
+                    <input id="analysis-input" readonly class="form-control" data-toggle="modal" data-target="#analysis-modal" autocomplete="off" onclick="$('#analysis-modal').attr('style','display: block; padding-right: 15px;')">
+
+                    <label for="degree-input">难度系数（范围：0.30 ~ 0.90）</label>
+                    <input class="form-control" type="number" id="degree-input" onchange="preview_degree()" value="0.30" min="0.30" max="0.90">
+<!--                    模态框-->
+                    <div>
+<!--                        题干modal-->
+                        <div id="subject-modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="subject-label" style="display: none;">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content" style="width: 1055px">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <h4 class="modal-title" id="subject-label">题干</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <script id="question" type="text/plain" style="width:1024px;height:300px;"></script>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="set_Val('question','subject-input')">点击保存</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<!--                        answer modal-->
+                        <div id="answer-modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="answer-label" style="display: none;">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content" style="width: 1055px">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <h4 class="modal-title" id="answer-label">标准答案</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <script id="answer" type="text/plain" style="width:1024px;height:300px;"></script>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="set_Val('answer','answer-input')">点击保存</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--                        Analysis-->
+                        <div id="analysis-modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="analysis-label" style="display: none;">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content" style="width: 1055px">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <h4 class="modal-title" id="analysis-label">解析</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <script id="analysis" type="text/plain" style="width:1024px;height:300px;"></script>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="set_Val('analysis','analysis-input')">点击保存</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="submit()" value="submit">提 交</button>
+                </div>
+
+                <div class="col-lg-6">
+                    <h4>试题预览</h4>
+                    <label>科目：</label><label id="preview-course"></label><br/>
+                    <label>所属知识点：</label><label id="preview-kwl"></label><br/>
+                    <label>难度系数：</label><label id="preview-degree"></label><br/>
+                    <label>题干：</label>
+                    <div id="preview-question"></div>
+                    <label>标准答案：</label>
+                    <div id="preview-answer"></div>
+                    <label>解析：</label>
+                    <div id="preview-analysis"></div>
+                </div>
+            </div>
+        <!--End 页面主要内容-->
+        </div>
+    </div>
+</div>
+
+<script src="../js/jconfirm/jquery-confirm.min.js"></script>
+<script type="text/javascript" src="../js/jsUtil/PublicFun.js"></script>
+<script type="text/javascript">
+    var question = UE.getEditor('question',{
+        toolbars:[
+            ['fullscreen', 'source', 'undo', 'redo','paragraph','fontfamily','fontsize','|','bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch','link','|','justifyleft','justifyright','justifycenter','justifyjustify','|','simpleupload','imagenone','imageleft','imagecenter','imageright'],
+            [ 'inserttable','deletetable','insertrow','insertcol','mergeright','mergedown','deleterow','deletecol','splittorows','splittocols','splittocells', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc','|','insertcode','|','print','preview','searchreplace','cleardoc']
+        ],
+        autoHeightEnabled:true,
+        autoFloatEnabled:true
+    });
+    var answer = UE.getEditor('answer',{
+        toolbars:[
+            ['fullscreen', 'source', 'undo', 'redo','paragraph','fontfamily','fontsize','|','bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch','link','|','justifyleft','justifyright','justifycenter','justifyjustify','|','simpleupload','imagenone','imageleft','imagecenter','imageright'],
+            [ 'inserttable','deletetable','insertrow','insertcol','mergeright','mergedown','deleterow','deletecol','splittorows','splittocols','splittocells', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc','|','insertcode','|','print','preview','searchreplace','cleardoc']
+        ],
+        autoHeightEnabled:true,
+        autoFloatEnabled:true
+    });
+    var choice_a = UE.getEditor('choice_a',{
+        toolbars:[
+            ['fullscreen', 'source', 'undo', 'redo','paragraph','fontfamily','fontsize','|','bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch','link','|','justifyleft','justifyright','justifycenter','justifyjustify','|','simpleupload','imagenone','imageleft','imagecenter','imageright'],
+            [ 'inserttable','deletetable','insertrow','insertcol','mergeright','mergedown','deleterow','deletecol','splittorows','splittocols','splittocells', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc','|','insertcode','|','print','preview','searchreplace','cleardoc']
+        ],
+        autoHeightEnabled:true,
+        autoFloatEnabled:true
+    });
+    var choice_b = UE.getEditor('choice_b',{
+        toolbars:[
+            ['fullscreen', 'source', 'undo', 'redo','paragraph','fontfamily','fontsize','|','bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch','link','|','justifyleft','justifyright','justifycenter','justifyjustify','|','simpleupload','imagenone','imageleft','imagecenter','imageright'],
+            [ 'inserttable','deletetable','insertrow','insertcol','mergeright','mergedown','deleterow','deletecol','splittorows','splittocols','splittocells', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc','|','insertcode','|','print','preview','searchreplace','cleardoc']
+        ],
+        autoHeightEnabled:true,
+        autoFloatEnabled:true
+    });
+    var choice_c = UE.getEditor('choice_c',{
+        toolbars:[
+            ['fullscreen', 'source', 'undo', 'redo','paragraph','fontfamily','fontsize','|','bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch','link','|','justifyleft','justifyright','justifycenter','justifyjustify','|','simpleupload','imagenone','imageleft','imagecenter','imageright'],
+            [ 'inserttable','deletetable','insertrow','insertcol','mergeright','mergedown','deleterow','deletecol','splittorows','splittocols','splittocells', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc','|','insertcode','|','print','preview','searchreplace','cleardoc']
+        ],
+        autoHeightEnabled:true,
+        autoFloatEnabled:true
+    });
+    var choice_d = UE.getEditor('choice_d',{
+        toolbars:[
+            ['fullscreen', 'source', 'undo', 'redo','paragraph','fontfamily','fontsize','|','bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch','link','|','justifyleft','justifyright','justifycenter','justifyjustify','|','simpleupload','imagenone','imageleft','imagecenter','imageright'],
+            [ 'inserttable','deletetable','insertrow','insertcol','mergeright','mergedown','deleterow','deletecol','splittorows','splittocols','splittocells', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc','|','insertcode','|','print','preview','searchreplace','cleardoc']
+        ],
+        autoHeightEnabled:true,
+        autoFloatEnabled:true
+    });
+    var analysis = UE.getEditor('analysis',{
+        toolbars:[
+            ['fullscreen', 'source', 'undo', 'redo','paragraph','fontfamily','fontsize','|','bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch','link','|','justifyleft','justifyright','justifycenter','justifyjustify','|','simpleupload','imagenone','imageleft','imagecenter','imageright'],
+            [ 'inserttable','deletetable','insertrow','insertcol','mergeright','mergedown','deleterow','deletecol','splittorows','splittocols','splittocells', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc','|','insertcode','|','print','preview','searchreplace','cleardoc']
+        ],
+        autoHeightEnabled:true,
+        autoFloatEnabled:true
+    });
+
+    function set_Val(UEelementId,elementId){
+        let val = UE.getEditor(UEelementId).getContent();
+        $("#"+elementId).val(val);
+        $("#preview-"+UEelementId).html(val)
+    }
+
+</script>
+</body>
+</html>

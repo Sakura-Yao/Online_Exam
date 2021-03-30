@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huade.mapper.QuestionInfoMapper">
+
+    <select id="GA_QuestionInfo" resultType="View_Question_Info">
+        select * from online_exam.view_question_info
+        <where>
+            <if test="cou_Id != null and cou_Id != ''">
+                and cou_Id = #{cou_Id}
+            </if>
+            <if test="type != null and type != ''">
+                and type_Id = #{type}
+            </if>
+            and kwl_Id in
+            <foreach collection="kwl_list" item="kwl_Id" index="index" open="(" close=")" separator=",">
+                #{kwl_Id}
+            </foreach>
+        </where>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jsUtil/TeacherFun.js"> </script>
+    <script src="jQuery_v3.5.1.js"></script>
+    <link href="css/materialdesignicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="js/jconfirm/jquery-confirm.min.css">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/page.css" rel="stylesheet">
+    <script src="js/jsUtil/TeacherFun.js"></script>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
+    <script type="text/javascript" src="js/main.min.js"></script>
+    <script type="text/javascript" src="js/jQuery_v3.5.1.js"></script>
+    <script src="js/bootstrap-notify.min.js"></script>
+    <script src="js/lightyear.js"></script>
+    <script src="test.js">
+
+    </script>
+</head>
+<body>
+    <input type="text" value="123" id="asdasd"/>
+    <button type="button" class="btn btn-default" onclick="test_num()" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Tooltip on bottom">Tooltip on 底部</button>
+    <div id="pager" class="pager clearfix"></div>
+    <button onclick="qwe()">ceshi</button>
+    <select class="form-control" id="course-select" name="course-select" onchange="preview_course()" size="1">
+        <option value="">请选择课程</option>
+
+    </select>
+
+<button onclick="message()" >测试消息跳转</button>
+
+    <form class="form-group" action="/api/makeBatchUserInfo" method="post"
+          enctype="multipart/form-data">
+<!--        <input hidden type="text" id="fileName" name="fileName" value="批量添加课程知识点信息.xlsx">-->
+        <input class="btn btn-warning  btn-round" type="submit" value="点击下载模版">
+    </form>
+
+</body>
+<script src="js/page/jquery.z-pager.js"></script>
+<script>
+    $("#pager").zPager({
+        totalData: 50,
+        htmlBox: $('#wraper'),
+        btnShow: true,
+        ajaxSetData: false
+    });
+
+    function currentPage(currentPage){
+        /*
+            触发页码数位置： Page/js/jquery.z-pager.js 64行
+        */
+        console.log("当前页码数：" + currentPage);
+    }
+
+    function download_file() {
+        $.ajax({
+            url:"/api/download",
+            type: "POST",
+            data: {
+                fileName:"批量添加课程知识点信息.xlsx"
+            },
+            dataType: "file",
+            success :function (res){
+                console.log(res);
+            }
+        })
+    }
+</script>
+
+</html>

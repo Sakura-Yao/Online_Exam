@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huade.mapper.CourseMapper">
+
+    <insert id="addCourseInfo" parameterType="Course">
+        insert into online_exam.course(Id, cou_Name, spe_Id) VALUES
+        (#{Id},#{cou_Name},#{spe_Id})
+    </insert>
+
+    <insert id="batchAddCourseInfo" parameterType="java.util.List">
+        insert into online_exam.course(Id, cou_Name, spe_Id) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.Id},#{item.cou_Name},#{item.spe_Id})
+        </foreach>
+    </insert>
+
+    <delete id="deleteCourseInfo" parameterType="String">
+        delete from online_exam.course where Id=#{Id}
+    </delete>
+
+    <update id="updateCourseInfo" parameterType="Course">
+        update online_exam.course
+        set cou_Name=#{cou_Name},spe_Id = #{spe_Id}
+        where Id=#{Id}
+    </update>
+
+    <select id="selectAllCourseInfo" resultType="View_CourseInfo">
+        select * from online_exam.view_course_info
+        <if test="current != 0 and length != 0">
+            LIMIT #{current},#{length};
+        </if>
+    </select>
+
+    <select id="selectCourseInfo" resultType="View_CourseInfo">
+        select * from online_exam.view_course_info
+        <where>
+            <if test="cou_Id != null and cou_Id != ''">
+                and Id = #{cou_Id}
+            </if>
+            <if test="cou_Name != null and cou_Name != ''">
+                and cou_Name like "%"#{cou_Name}"%"
+            </if>
+            <if test="col_Id != null and col_Id != ''">
+                and col_Id =#{col_Id}
+            </if>
+            <if test="spe_Id != null and spe_Id != ''">
+                and spe_Id =#{spe_Id}
+            </if>
+        </where>
+        <if test="current != -1 and length != -1">
+            LIMIT #{current},#{length};
+        </if>
+    </select>
+
+</mapper>

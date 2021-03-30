@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>试题信息管理</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="../css/animate.css" rel="stylesheet">
+    <link rel="stylesheet" href="../js/jconfirm/jquery-confirm.min.css">
+    <link href="../css/style.min.css" rel="stylesheet">
+    <link href="../css/page.css" rel="stylesheet">
+    <script src="../js/jQuery_v3.5.1.js"></script>
+    <script src="../js/jsUtil/TeacherFun.js"></script>
+
+    <!--    消息通知-->
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/perfect-scrollbar.min.js"></script>
+    <script type="text/javascript" src="../js/main.min.js"></script>
+    <script type="text/javascript" src="../js/jQuery_v3.5.1.js"></script>
+    <script src="../js/bootstrap-notify.min.js"></script>
+    <script src="../js/lightyear.js"></script>
+
+    <script src="../js/page/jquery.z-pager.js"></script>
+
+    <script>
+        window.onload = onload_function;
+        function onload_function() {
+            get_teachCourse("course-select");
+            get_question_type("question-type-select");
+            // get_question_info();
+        }
+
+        var param = {
+            question_Id:"",
+            cou_Id:"",
+            type_Id:"",
+            subject:"",
+            degree:"",
+            kwl_Id:"",
+            current:"1",
+            length:"15",
+        }
+
+        function submit_keywords() {
+            param.type_Id = $("#question-type-select").val();
+            param.subject = $("#QuestionStem").val();
+            param.cou_Id = $("#course-select").val();
+            init_pager(get_question_info_itemsNum(param));
+            get_question_info(param,1);
+        }
+
+        function currentPage(currentPage){
+            param.current = (currentPage-1)*param.length;
+            get_question_info(param,0);
+        }
+
+        $(document).keydown(function (event){
+            if (event.keyCode === 13) {
+               submit_keywords();
+            }
+        })
+
+
+    </script>
+</head>
+
+<body>
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="card">
+
+                        <div class="card-body">
+
+                            <div class="form-inline" onsubmit="return false;">
+                                <div class="form-group">
+                                    <label for="question-type-select">试题类型</label>
+                                    <select class="form-control" id="question-type-select" name="question-type-select" onchange="" size="1">
+                                        <option value="">请选择试题类型</option>
+                                    </select>
+                                    <label> | </label>
+                                    <label for="course-select">科目</label>
+                                    <select class="form-control" id="course-select" name="course-select" onchange="" size="1">
+                                        <option value="">请选择课程</option>
+                                    </select>
+                                    <label> | </label>
+                                    <label for="QuestionStem">题干</label>
+                                    <input class="form-control" type="text" id="QuestionStem" placeholder="请输入关键字..">
+                                </div>
+                                <div class="form-group">
+                                    <button id="selectTeachCourse" class="btn btn-primary" onclick="submit_keywords()">查询</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>题干</th>
+                                <th>科目</th>
+                                <th>题型</th>
+                                <th>知识点</th>
+                                <th>难度</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody id="teachCourseInfo">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="pager" class="pager clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+
+</html>

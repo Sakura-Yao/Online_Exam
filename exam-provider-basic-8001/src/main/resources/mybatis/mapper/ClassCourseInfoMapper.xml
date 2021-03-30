@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huade.mapper.ClassCourseInfoMapper">
+
+    <insert id="addClassCourseInfo" parameterType="ClassCourseInfo">
+        insert into online_exam.class_course(classes_Id, user_Id, cou_Id) VALUES
+        (#{classes_Id},#{user_Id},#{cou_Id})
+    </insert>
+
+    <delete id="deleteClassCourseInfo" parameterType="ClassCourseInfo">
+        delete from online_exam.class_course where classes_Id=#{classes_Id} and user_Id=#{user_Id} and cou_Id=#{cou_Id}
+    </delete>
+
+    <update id="updateClassCourseInfo" parameterType="ClassCourseInfo">
+        update online_exam.class_course
+        set classes_Id=#{new_ClassCourseInfo.classes_Id},user_Id=#{new_ClassCourseInfo.user_Id},cou_Id=#{new_ClassCourseInfo.cou_Id}
+        where classes_Id=#{old_ClassCourseInfo.classes_Id} and user_Id=#{old_ClassCourseInfo.user_Id} and cou_Id=#{old_ClassCourseInfo.cou_Id}
+    </update>
+
+    <select id="selectAllClassCourseInfo" resultType="View_Teacher_Class_Info">
+        select * from online_exam.view_teacher_class_info
+        <if test="current != 0 and length != 0">
+            LIMIT #{current},#{length};
+        </if>
+    </select>
+
+    <select id="selectClassCourseInfo" resultType="View_Teacher_Class_Info">
+        select * from online_exam.view_teacher_class_info
+        <where>
+            <if test="user_Id != null and user_Id != ''">
+                and user_Id =#{user_Id}
+            </if>
+            <if test="cou_Id != null and cou_Id != ''">
+                and cou_Id =#{cou_Id}
+            </if>
+            <if test="class_Id.length != 0">
+                and classes_Id in
+                <foreach collection="class_Id" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        <if test="current != -1 and length != -1">
+            LIMIT #{current},#{length};
+        </if>
+    </select>
+
+    <select id="selectAllTeachCourse" resultType="View_Teacher_Class_Info">
+        select distinct online_exam.view_teacher_class_info.cou_Id, online_exam.view_teacher_class_info.cou_Name
+        from online_exam.view_teacher_class_info
+        <where>
+            online_exam.view_teacher_class_info.user_Id = #{user_Id}
+            <if test="cou_Name != null and cou_Name != ''">
+                and online_exam.view_teacher_class_info.cou_Name like "%"#{cou_Name}"%"
+            </if>
+        </where>
+        <if test="current != -1 and length != -1">
+            LIMIT #{current},#{length};
+        </if>
+    </select>
+    
+    <select id="selectAllTeachClasses" resultType="View_Teacher_Class_Info">
+        select distinct online_exam.view_teacher_class_info.class_Id
+        from online_exam.view_teacher_class_info
+        where online_exam.view_teacher_class_info.user_Id = #{user_Id}
+    </select>
+
+    <select id="selectTeachClasses_course" resultType="String">
+        select online_exam.view_teacher_class_info.class_Id
+        from online_exam.view_teacher_class_info
+        where user_Id = #{user_Id} and cou_Id = #{cou_Id}
+    </select>
+
+</mapper>

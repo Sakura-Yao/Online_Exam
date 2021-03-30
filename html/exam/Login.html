@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>登录页面</title>
+    <link rel="icon" href="favicon.ico" type="image/ico">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="css/style.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="js/jconfirm/jquery-confirm.min.css">
+    <link href="css/verify.css" rel="stylesheet">
+    <link href="css/style.min.css" rel="stylesheet">
+    <link rel="stylesheet" media="screen" href="css/lizi.css">
+
+    <style>
+        .lyear-wrapper {
+            position: relative;
+        }
+
+        .lyear-login {
+        //background-image:url('images/Login.jpg');
+        //background-size: 100% 100%;
+            display: flex !important;
+            min-height: 100vh;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .login-center {
+            background: #fff;
+            min-width: 38.25rem;
+            padding: 2.14286em 3.57143em;
+            border-radius: 5px;
+            margin: 2.85714em 0;
+        }
+
+        .login-header {
+            margin-bottom: 1.5rem !important;
+        }
+
+        .login-center .has-feedback.feedback-left .form-control {
+            padding-left: 38px;
+            padding-right: 12px;
+        }
+
+        .login-center .has-feedback.feedback-left .form-control-feedback {
+            left: 0;
+            right: auto;
+            width: 38px;
+            height: 38px;
+            line-height: 38px;
+            z-index: 4;
+            color: #dcdcdc;
+        }
+
+        .login-center .has-feedback.feedback-left.row .form-control-feedback {
+            left: 15px;
+        }
+
+        .login-huade{
+            top:0;
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+<div class="row lyear-wrapper" >
+    <div class="lyear-login" >
+        <div class="login-center" style="position:relative; z-index:2" >
+            <div class="login-header text-center">
+                <img alt="light year admin" src="images/logo.png">
+            </div>
+            <div class="form-group has-feedback feedback-left" >
+                <input type="text" placeholder="请输入您的用户名" class="form-control" name="username" id="username"/>
+                <span class="mdi mdi-account form-control-feedback" aria-hidden="true"></span>
+            </div>
+            <div class="form-group has-feedback feedback-left">
+                <input type="password" placeholder="请输入密码" class="form-control" id="password" name="password"/>
+                <span class="mdi mdi-lock form-control-feedback" aria-hidden="true"></span>
+            </div>
+
+
+            <button id="checkButton" class="btn btn-primary collapsed btn-block" type="button" data-toggle="collapse"
+                    data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                点击验证
+            </button>
+            <div class="m-t-10 collapse" id="collapseExample" aria-expanded="false" style="height: 0px;">
+
+                <div id="mpanel4" style="margin-top:50px;">
+
+                </div>
+            </div>
+            <br/>
+            <div class="form-group">
+                <button id="subumitButton" class="btn btn-block btn-primary" disabled="disabled" type="button"
+                        onclick="submit()">立即登录
+                </button>
+            </div>
+            <hr>
+            <footer class="col-sm-12 text-center">
+                <p class="m-b-0">Copyright © 2020 <a href="#">创客实验室</a>. All right reserved</p>
+            </footer>
+        </div>
+    </div>
+    <div  id="particles-js">
+        <canvas class="particles-js-canvas-el"></canvas>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/jsUtil/TeacherFun.js"></script>
+<script type="text/javascript" src="js/verify.js"></script>
+<script type="text/javascript" src="js/jconfirm/jquery-confirm.min.js"></script>
+<script type="text/javascript" src="js/main.min.js"></script>
+<script type="text/javascript" src="js/jsUtil/PublicFun.js"></script>
+<script type="text/javascript" src="js/jsUtil/TeacherFun.js"></script>
+<script src="js/lizi.js"></script>
+<script>
+    function submit() {
+        var use_id = $("#username").val();
+        var password = $("#password").val();
+        Login(use_id,password);
+        //     $.ajax({
+        //     url:"/UserLogin",
+        //     type:"POST",
+        //     data:{
+        //         user_id:use_id,
+        //         password:password
+        //     },
+        //     dataType:"json",
+        //     success:function (res) {
+        //         console.log(res);
+        //         if (res.code === 1){
+        //             window.location.href="../index.html";
+        //         }
+        //         else{
+        //             alert(res.message);
+        //             window.location.href="../Login.html";
+        //         }
+        //     }
+        // })
+    }
+
+    $('#mpanel4').slideVerify({
+        type: 2,		//类型
+        vOffset: 5,	//误差量，根据需求自行调整
+        vSpace: 5,	//间隔
+        imgName: ['1.jpg', '2.jpg'],
+        imgSize: {
+            width: '420px',
+            height: '200px',
+        },
+        blockSize: {
+            width: '40px',
+            height: '40px',
+        },
+        barSize: {
+            width: '420px',
+            height: '40px',
+        },
+        ready: function () {
+        },
+        success: function () {
+            successAlert();
+            $("#subumitButton").removeAttr("disabled");
+            $("#checkButton").attr("aria-expanded", "false");
+            //......后续操作
+        },
+        error: function () {
+//		        	alert('验证失败！');
+        }
+    });
+
+
+
+
+</script>
+</body>
+</html>

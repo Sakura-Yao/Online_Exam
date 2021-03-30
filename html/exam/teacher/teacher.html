@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>教师管理</title>
+<link rel="icon" href="favicon.ico" type="image/ico">
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<link href="../css/materialdesignicons.min.css" rel="stylesheet">
+<link href="../css/style.min.css" rel="stylesheet">
+    <link href="../css/page.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="lyear-layout-web">
+  <div class="lyear-layout-container"> 
+    
+    <!--页面主要内容-->
+    
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+              <h4>教师管理</h4>
+            </div>
+            <div class="card-toolbar clearfix">
+              <div class="toolbar-btn-action"> <a class="btn btn-primary m-r-5" data-toggle="modal" data-target="#addModal"><i class="mdi mdi-plus"></i> 添加</a> <a class="btn btn-success m-r-5" data-toggle="modal" data-target="#addAllModal"><i class="mdi mdi-check"></i> 批量添加</a>
+<!--                  <a class="btn btn-danger" href="#!"><i class="mdi mdi-window-close"></i> 删除</a> -->
+              </div>
+              </br>
+              <div class="row m-b-10">
+                <div class="col-xs-2 .col-md-3">
+                  <div class="input-group"> <span class="input-group-addon" id="id-addon">工号</span>
+                    <input type="text" class="form-control" aria-label="..." id="teacherId-keyWord">
+                  </div>
+                </div>
+                <div class="col-xs-2 .col-md-3">
+                  <div class="input-group"> <span class="input-group-addon" id="name-addon">姓名</span>
+                    <input type="text" class="form-control" aria-label="..." id="teacherName-keyWord">
+                  </div>
+                </div>
+                <div class="col-xs-2 .col-md-3">
+                  <div class="input-group"> <span class="input-group-addon" id="college-addon">学院</span>
+                    <select class="form-control" id="college-select" onchange="get_specialtyInfo_elementId($('#college-select').val(),'specialty-select')" name="example-select" size="1">
+                      <option value="">请选择</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-xs-2 .col-md-3">
+                  <div class="input-group"> <span class="input-group-addon" id="specialty-addon">专业</span>
+                    <select class="form-control" id="specialty-select" name="example-select" size="1">
+                      <option value="">请选择</option>
+                    </select>
+                  </div>
+                </div>
+                  <button class="btn btn-label btn-info" onclick="select_teacherInfo()">
+                      <label><i class="mdi mdi-magnify"></i></label>
+                      查询
+                  </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th> <label class="lyear-checkbox checkbox-primary">
+                          <input type="checkbox" id="all">
+                          <span></span> </label>
+                      </th>
+                      <th>工号</th>
+                      <th>姓名</th>
+                      <th>性别</th>
+                      <th>学院</th>
+                      <th>专业</th>
+                      <th>手机</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="teachersInfo">
+
+                  </tbody>
+                </table>
+              </div>
+                <div id="pager" class="pager clearfix"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!--End 页面主要内容--> 
+    
+    <!-- 添加模态框 -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title">添加教师信息</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group col-md-12">
+              <label for="teacherId">工号</label>
+              <input type="text" class="form-control" id="teacherId" value="" placeholder="请输入工号">
+            </div>
+            <div class="form-group col-md-12">
+              <label for="teacherName">姓名</label>
+              <input type="text" class="form-control" id="teacherName" value="" placeholder="请输入姓名">
+            </div>
+            <div class="form-group col-md-12">
+              <label>性别</label>
+              <div class="clearfix">
+                <label class="lyear-radio radio-inline radio-primary">
+                  <input type="radio" name="status" value="男">
+                  <span>男</span> </label>
+                <label class="lyear-radio radio-inline radio-primary">
+                  <input type="radio" name="status" value="女" >
+                  <span>女</span> </label>
+              </div>
+            </div>
+            <div class="form-group col-md-12">
+              <label for="College-select">学院</label>
+              <select class="form-control" id="teacherCollege" onchange="get_specialtyInfo_elementId($('#teacherCollege').val(),'teacherSpecialty')" name="example-select" size="1">
+                <option value="">请选择</option>
+              </select>
+            </div>
+            <div class="form-group col-md-12">
+              <label for="Specialty-select">专业</label>
+              <select class="form-control" id="teacherSpecialty" name="example-select" size="1">
+                <option value="">请选择</option>
+              </select>
+            </div>
+            <div class="form-group col-md-12">
+              <label for="teacherMobile">手机</label>
+              <input type="text" class="form-control" id="teacherMobile" value="" placeholder="请输入手机">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="submit()">确认</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束添加模态框 --> 
+    
+    <!-- 修改模态框 -->
+    <div class="modal fade" id="changeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title">修改教师信息</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group col-md-12">
+              <label for="teacherChangeId">工号</label>
+              <input readonly type="text" class="form-control" id="teacherChangeId" value="" placeholder="请输入工号">
+            </div>
+            <div class="form-group col-md-12">
+              <label for="teacherChangeName">姓名</label>
+              <input type="text" class="form-control" id="teacherChangeName" value="" placeholder="请输入姓名">
+            </div>
+            <div class="form-group col-md-12">
+              <label >性别</label>
+              <div class="clearfix">
+                <label class="lyear-radio radio-inline radio-primary">
+                  <input type="radio" name="statusChange" value="男">
+                  <span>男</span> </label>
+                <label class="lyear-radio radio-inline radio-primary">
+                  <input type="radio" name="statusChange" value="女" >
+                  <span>女</span> </label>
+              </div>
+            </div>
+            <div class="form-group col-md-12">
+              <label for="teacherCollegeChangeSelect">学院</label>
+              <select class="form-control" id="teacherCollegeChangeSelect" onchange="get_specialtyInfo_elementId($('#teacherCollegeChangeSelect').val(),'teacherSpecialtyChangeSelect')" name="example-select" size="1">
+                <option value="">请选择</option>
+              </select>
+            </div>
+            <div class="form-group col-md-12">
+              <label for="teacherSpecialtyChangeSelect">专业</label>
+              <select class="form-control" id="teacherSpecialtyChangeSelect" name="example-select" size="1">
+                <option value="">请选择</option>
+              </select>
+            </div>
+            <div class="form-group col-md-12">
+              <label for="teacherChangeMobile">手机</label>
+              <input type="text" class="form-control" id="teacherChangeMobile" value="" placeholder="请输入手机">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="submit_update()">确认</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束修改模态框 --> 
+    
+    <!-- 批量添加教师信息 -->
+    <div class="modal fade" id="addAllModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title" >批量添加教师信息</h4>
+          </div>
+          <div class="modal-body">
+            <div class="input-group">
+              <input type="file" accept=".xlsx" class="form-control" name="web_site_logo" id="file" value="/home/xxx.xlsx">
+              <div class="input-group-btn">
+                <button class="btn btn-label btn-info" onclick="submit_file()" type="button">
+                <label><i class="mdi mdi-play-circle-outline"></i></label>
+                上传文件
+                </button>
+              </div>
+            </div>
+            <small class="help-block">上传格式：<code>'xlsx'</code></small> </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary">确认</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束修改模态框 --> 
+  </div>
+</div>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="../js/main.min.js"></script>
+<script type="text/javascript" src="../js/jQuery_v3.5.1.js"></script>
+<script type="text/javascript" src="../js/jsUtil/Secretary.js"></script>
+<script src="../js/bootstrap-notify.min.js"></script>
+<script src="../js/lightyear.js"></script>
+<script src="../js/page/jquery.z-pager.js"></script>
+<script type="text/javascript">
+
+    let param = {
+        "user_Id":"",
+        "user_Name":"",
+        "user_Type":"c97b09ac65ba4684839a905646b3eff3",
+        "user_Sex":"",
+        "user_Mobile":"",
+        "college_Id":"",
+        "specialty_Id":""
+    }
+
+    let select_keyWords = {
+        "user_Id":"",
+        "user_Name":"",
+        "col_Id":"",
+        "spe_Id":"",
+        "current":"0",
+        "length":"10"
+    }
+
+    window.onload = onload_function;
+
+    function onload_function() {
+        get_collegeInfo_elementId('','college-select');
+        get_collegeInfo_elementId('','teacherCollege');
+        get_collegeInfo_elementId('','teacherCollegeChangeSelect');
+        // get_studentsInfo_elementId(select_keyWords,'studentsInfo');
+    }
+
+    function select_teacherInfo() {
+        select_keyWords.user_Id = $("#teacherId-keyWord").val();
+        select_keyWords.user_Name = $("#teacherName-keyWord").val();
+        select_keyWords.col_Id = $("#college-select").val();
+        select_keyWords.spe_Id = $("#specialty-select").val();
+        init_pager_secretary(get_teachersInfo_itemsNum(select_keyWords));
+        get_teachersInfo_elementId(select_keyWords,'teachersInfo');
+    }
+
+    function submit(){
+        param.user_Id = $("#teacherId").val();
+        param.user_Name = $("#teacherName").val();
+        param.user_Sex = $("input:radio[name=status]:checked").val();
+        param.user_Mobile = $("#teacherMobile").val();
+        param.college_Id = $("#teacherCollege").val();
+        param.specialty_Id = $("#teacherSpecialty").val();
+        add_teacherInfo(param);
+    }
+
+    function submit_update(){
+        param.user_Id = $("#teacherChangeId").val();
+        param.user_Name = $("#teacherChangeName").val();
+        param.user_Sex = $("input:radio[name=statusChange]:checked").val();
+        param.user_Mobile = $("#teacherChangeMobile").val();
+        param.college_Id = $("#teacherCollegeChangeSelect").val();
+        param.specialty_Id = $("#teacherSpecialtyChangeSelect").val();
+        teacherInfo_update(param);
+        get_teachersInfo_elementId(select_keyWords,'teachersInfo');
+    }
+
+	function getChangeModal() {
+    	$('#changeModal').modal('toggle');
+	}
+
+	function currentPage(currentPage){
+        select_keyWords.current = (currentPage-1)*select_keyWords.length;
+        get_teachersInfo_elementId(select_keyWords,'teachersInfo');
+    }
+
+    $(document).keydown(function (event){
+        if (event.keyCode === 13) {
+            submit_keywords();
+        }
+    })
+	
+
+	//全选反选
+	$("#all").on('click',function() {
+        $("input[name='permission']").prop("checked", this.checked);
+    });
+
+    $("input[name='permission']").on('click',function() {
+        var $subs = $("input[name='permission']");
+        $("#all").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
+    });
+
+    function submit_file() {
+      var formData = new FormData();
+      formData.append("file", $("#file")[0].files[0]);
+      console.log(formData);
+      $.ajax({
+        url: "/api/batchTeacherInfo",
+        type: "POST",
+        cache: false,
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function (res) {
+          console.log(res);
+        }
+      })
+    }
+</script>
+</body>
+</html>
