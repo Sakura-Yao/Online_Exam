@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="exam-provider-basic-8001" />
+        <module name="exam-api" />
+        <module name="exam-automatically_generation-8002" />
+        <module name="exam-consumer-basic-80" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="exam-api" target="1.8" />
+      <module name="exam-automatically_generation-8002" target="1.8" />
+      <module name="exam-consumer-basic-80" target="1.8" />
+      <module name="exam-provider-basic-8001" target="1.8" />
+      <module name="online_exam" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
