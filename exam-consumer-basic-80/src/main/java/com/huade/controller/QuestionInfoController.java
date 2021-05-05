@@ -81,9 +81,11 @@ public class QuestionInfoController {
             param.add("choice_B",choice_B);
             param.add("choice_C",choice_C);
             param.add("choice_D",choice_D);
+            answer = answer.equals("--")?"本试题暂无答案":answer;
             param.add("answer",answer);
             param.add("degree",degree);
             param.add("kwl_Id",kwl_Id);
+            analysis = analysis.equals("--")?"本试题暂无解析":analysis;
             param.add("analysis",analysis);
             if (restTemplate.postForObject(REST_URL_PREFIX + "/addQuestionInfo", param, Integer.class) == 1) {
                 object.put("code",1);

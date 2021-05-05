@@ -4,6 +4,9 @@ import com.huade.pojo.Paper;
 import com.huade.pojo.Population;
 import com.huade.pojo.Rule;
 
+/**
+ * 自动化组卷实现方法
+ */
 public class GA {
 
     private static final int RUN_COUNT = 50;
@@ -13,13 +16,10 @@ public class GA {
     private static final double KP_COVERAGE_EXPAND = 0.9;
 
      public static Paper AutoMakePaper(Rule rule){
-         Paper resultPaper = null;
-         //迭代计数器
-         int count = 0;
-         //适应度期望值
+         Paper resultPaper = null; //迭代计数器
+         int count = 0; //适应度期望值
          System.out.println("正在组卷！！！");
-         //初始化种群
-         Population population = new Population();
+         Population population = new Population(); //初始化种群
          population.Population(POP_SIZE,INIT,rule);
          while(count < RUN_COUNT && ( population.getFitness().getAdaptationDegree() < EXPAND || population.getFitness().getKPCoverage() < KP_COVERAGE_EXPAND)){
              count++;

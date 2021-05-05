@@ -1,6 +1,5 @@
 package com.huade.Utils;
 
-import com.fasterxml.jackson.core.sym.NameN;
 import com.huade.pojo.*;
 import com.huade.service.*;
 import org.apache.poi.ss.usermodel.Cell;
@@ -9,7 +8,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.stereotype.Component;
@@ -53,7 +51,7 @@ public class UtilTools {
      @Autowired
      private TeacherBasicServiceImpl teacherBasicServiceImpl;
      @Autowired
-     private KnowledgeServiceImpl knowledgeServiceImpl;
+     private static KnowledgeServiceImpl knowledgeServiceImpl;
 
 
     /**
@@ -202,13 +200,13 @@ public class UtilTools {
      * @param list_know
      * @return
      */
-    public static List<Sort_Knowledge> Sort_Level_1 (List<Sort_Knowledge> list_know){
+    public static List<View_Knowledge> Sort_Level_1 (List<View_Knowledge> list_know){
         for (int i = 0; i < list_know.size()-1; i++) {
             for (int j = 0; j < list_know.size()-i-1; j++) {
                 if (list_know.get(j).getChapter_Num() > list_know.get(j + 1).getChapter_Num()) {
-                    Sort_Knowledge sort_knowledge = list_know.get(j);
+                    View_Knowledge view_knowledge = list_know.get(j);
                     list_know.remove(j);
-                    list_know.add(j+1,sort_knowledge);
+                    list_know.add(j+1,view_knowledge);
                 }
             }
         }
@@ -223,17 +221,25 @@ public class UtilTools {
      * @param list_know
      * @return
      */
-    public static List<Sort_Knowledge> Sort_Level_2 (List<Sort_Knowledge> list_know){
+    public static List<View_Knowledge> Sort_Level_2 (List<View_Knowledge> list_know){
         for (int i = 0; i < list_know.size()-1; i++) {
             for (int j = 0; j < list_know.size()-i-1; j++) {
                 if (list_know.get(j).getSection_Num() > list_know.get(j + 1).getSection_Num()) {
-                    Sort_Knowledge sort_knowledge = list_know.get(j);
+                    View_Knowledge view_knowledge = list_know.get(j);
                     list_know.remove(j);
-                    list_know.add(j+1,sort_knowledge);
+                    list_know.add(j+1,view_knowledge);
                 }
             }
         }
         return list_know;
+    }
+
+    public static void GetKnowledgeTree(String cou_Id){
+        System.out.println(cou_Id);
+        System.out.println(knowledgeServiceImpl.selectKnowledge("", cou_Id, "1", "", "", 0, 0));
+//        List<View_Knowledge> l1 = Sort_Level_1(knowledgeServiceImpl.selectKnowledge("", cou_Id, "1", "", "", 0, 0));
+//        System.out.println(l1);
+
     }
 
     /**

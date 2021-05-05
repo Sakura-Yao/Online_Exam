@@ -44,9 +44,21 @@ public class Paper {
 
                     total += rule.getCompleteScore();
                 }
-                else if (questionInfo.getType_Id().equals("1996a697e26a4453a80900a82c1df699")) {
+                else if (questionInfo.getType_Id().equals("a3514b0394a940cea19d5e1ef74b041f")) {
 
                     total += rule.getSubjectScore();
+                } else if (questionInfo.getType_Id().equals("b5046eea8c484ec8ab011da3a650a1e5")){
+
+                    total += rule.getJudgeScore();
+                } else if (questionInfo.getType_Id().equals("3eb9b37cff394f3fa9a1a052e1685105")){
+
+                    total += rule.getNounSore();
+                } else if (questionInfo.getType_Id().equals("fd09a3873f184169b4fd335934078123")){
+
+                    total += rule.getFillcodeScore();
+                } else if (questionInfo.getType_Id().equals("1996a697e26a4453a80900a82c1df699")){
+
+                    total += rule.getCodingScore();
                 }
             }
             totalScore = total;
@@ -66,8 +78,16 @@ public class Paper {
                     _difficulty += rule.getSingleScore() * Double.parseDouble(questionInfo.getDegree());
                 else if (questionInfo.getType_Id().equals("9d1ec85c8fdd40ba8b4cc733d4d72581"))
                     _difficulty += rule.getCompleteScore() * Double.parseDouble(questionInfo.getDegree());
-                else
+                else if (questionInfo.getType_Id().equals("a3514b0394a940cea19d5e1ef74b041f"))
                     _difficulty +=rule.getSubjectScore() * Double.parseDouble(questionInfo.getDegree());
+                else if (questionInfo.getType_Id().equals("b5046eea8c484ec8ab011da3a650a1e5"))
+                    _difficulty += rule.getJudgeScore() * Double.parseDouble(questionInfo.getDegree());
+                else if (questionInfo.getType_Id().equals("3eb9b37cff394f3fa9a1a052e1685105"))
+                    _difficulty += rule.getNounSore() * Double.parseDouble(questionInfo.getDegree());
+                else if (questionInfo.getType_Id().equals("fd09a3873f184169b4fd335934078123"))
+                    _difficulty += rule.getFillcodeScore() * Double.parseDouble(questionInfo.getDegree());
+                else if (questionInfo.getType_Id().equals("1996a697e26a4453a80900a82c1df699"))
+                    _difficulty += rule.getCodingScore() * Double.parseDouble(questionInfo.getDegree());
             }
             difficulty = _difficulty / getTotalScore(rule);
         }

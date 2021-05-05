@@ -22,14 +22,13 @@ public class LoginController {
 
     private static final String REST_URL_PREFIX = "http://localhost:8001";
 
-    @RequestMapping("/getSession")
-    @ResponseBody
-    public JSON getSession(HttpSession session, @RequestParam("key")String key){
-        JSONObject object = new JSONObject();
-        object.put("session_data",session.getAttribute(key));
-        return object;
-    }
-
+    /**
+     * 本系统开始编码的第一行代码
+     * @param session Httpsession
+     * @param user_Id Id
+     * @param password password
+     * @return User
+     */
     @RequestMapping("/UserLogin")
     @ResponseBody
     public JSON UserLogin(HttpSession session,
@@ -48,6 +47,42 @@ public class LoginController {
         }else {
             object.put("code",0);
             object.put("message","登陆失败！");
+        }
+        return object;
+    }
+
+
+    @RequestMapping("/getSession")
+    @ResponseBody
+    public JSON getSession(HttpSession session, @RequestParam("key")String key){
+        JSONObject object = new JSONObject();
+        object.put("session_data",session.getAttribute(key));
+        return object;
+    }
+
+
+    @RequestMapping("/EditPassword")
+    @ResponseBody
+    public JSON EditPassword(HttpSession session,
+                             @RequestParam("user_Id")String user_Id,
+                             @RequestParam("oldPassword")String oldPassword,
+                             @RequestParam("newPassword")String newPassword){
+        JSONObject object = new JSONObject();
+        MultiValueMap<String, Object> param = new LinkedMultiValueMap<>();
+        if (session.getAttribute("login_session") != null){
+            param.add("user_Id",user_Id);
+            param.add("oldPassword",oldPassword);
+            param.add("newPassword",newPassword);
+            if (restTemplate.postForObject(REST_URL_PREFIX+"/EditPassword",param,Integer.class) == 1){
+                object.put("code",1);
+                object.put("message","密码修改成功！");
+            } else {
+                object.put("code",0);
+                object.put("message","密码修改失败！");
+            }
+        } else {
+            object.put("code",-1);
+            object.put("message","登录状态失效！请重新登陆！");
         }
         return object;
     }

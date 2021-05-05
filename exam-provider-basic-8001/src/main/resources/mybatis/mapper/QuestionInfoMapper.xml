@@ -93,7 +93,9 @@
             <if test="degree != null and degree != ''">
                 and question_Id = #{question_Id}
             </if>
-            <if test="kwl_Id != null and kwl_Id != ''"></if>
+            <if test="kwl_Id != null and kwl_Id != ''">
+                and kwl_Id = #{kwl_Id}
+            </if>
         </where>
     </select>
 

@@ -162,12 +162,14 @@ public class ClassInfoController {
     @RequestMapping("/showCountNum")
     @ResponseBody
     public JSON showCountNum(HttpSession session,@RequestParam("Id")String Id,
+                             @RequestParam("class_Id")String class_Id,
                              @RequestParam("col_Id")String col_Id,
                              @RequestParam("spe_Id")String spe_Id){
         JSONObject object = new JSONObject();
         MultiValueMap<String, Object> param = new LinkedMultiValueMap<>();
         if (session.getAttribute("login_session") != null){
             param.add("Id",Id);
+            param.add("class_Id",class_Id);
             param.add("col_Id",col_Id);
             param.add("spe_Id",spe_Id);
             object.put("code",1);

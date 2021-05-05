@@ -166,9 +166,4 @@ public class ExcelData {
 //    }
 
 
-
-    public static void main(String[] args) {
-        Map sheet1 = UtilTools.batch_knowledge("/Users/develop/Online_Exam/SpringBoot.xlsx", "Sheet1");
-        System.out.println(sheet1);
-    }
 }

@@ -5,8 +5,21 @@
 <mapper namespace="com.huade.mapper.ExamRuleMapper">
 
     <insert id="addExamRule" parameterType="Exam_Rule">
-        insert into online_exam.exam_rule(Id, rule_Name, exam_Id, cou_Id, totalMark, difficulty, singleNum, singleScore, completeNum, completeScore, subjectNum, subjectScore, pointIds, rule_Time) VALUES
-        (#{Id},#{rule_Name},#{exam_Id},#{cou_Id},#{totalMark},#{difficulty},#{singleNum},#{singleScore},#{completeNum},#{completeScore},#{subjectNum},#{subjectScore},#{pointIds},#{rule_Time});
+        insert into online_exam.exam_rule(Id, rule_Name, exam_Id, cou_Id, classes, totalMark, difficulty, singleNum, singleScore, completeNum, completeScore, judgeNum, judgeScore, nounNum, nounScore, subjectNum, subjectScore, fillcodeNum, fillcodeScore, codingNum, codingScore, pointIds, pointNames, rule_Time) VALUES
+        (#{Id},#{rule_Name},#{exam_Id},#{cou_Id},#{classes},#{totalMark},#{difficulty},#{singleNum},#{singleScore},#{completeNum},#{completeScore},#{judgeNum},#{judgeScore},#{nounNum},#{nounScore},#{subjectNum},#{subjectScore},#{fillcodeNum},#{fillcodeScore},#{codingNum},#{codingScore},#{pointIds},#{pointNames},#{rule_Time})
     </insert>
+
+    <select id="count" resultType="int">
+        select count(*) from online_exam.exam_rule
+    </select>
+
+    <select id="select" resultType="View_ExamRule">
+        select * from online_exam.view_exam_rule
+    </select>
+
+    <select id="selectExamRule" resultType="Exam_Rule">
+        select * from online_exam.exam_rule
+        where Id = #{Id}
+    </select>
 
 </mapper>

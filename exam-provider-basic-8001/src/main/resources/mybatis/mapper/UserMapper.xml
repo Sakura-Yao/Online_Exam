@@ -35,4 +35,10 @@
         </foreach>
     </insert>
 
+    <update id="editPassword" parameterType="String">
+        update online_exam.user
+        set password=#{newPassword}
+        where user_Id=#{user_Id}
+    </update>
+
 </mapper>

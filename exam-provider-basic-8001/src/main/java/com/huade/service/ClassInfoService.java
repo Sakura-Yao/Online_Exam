@@ -1,5 +1,6 @@
 package com.huade.service;
 
+import com.huade.Utils.LayuiMessage;
 import com.huade.Utils.UpdatePeopleCount;
 import com.huade.pojo.ClassInfo;
 import com.huade.pojo.View_ClassInfo;
@@ -32,5 +33,7 @@ public interface ClassInfoService {
     List<String> selectClassStudentsCount_classId();
 
     int updateClassStudentCount(String Id,String people_Num);
+
+    LayuiMessage getClassinfoList(int page, int limit);
 
 }

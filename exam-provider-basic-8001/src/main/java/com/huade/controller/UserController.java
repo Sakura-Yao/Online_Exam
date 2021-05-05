@@ -31,7 +31,11 @@ public class UserController {
     public int addUser (@RequestParam("user_Id") String user_Id, @RequestParam("password") String password, @RequestParam("user_Name") String user_Name, @RequestParam("user_Type") String user_Type, @RequestParam("user_Sex")String user_Sex, @RequestParam("user_Mobile") String user_Mobile) {
 
         User user = new User(user_Id,password,user_Name,user_Type,user_Sex,user_Mobile);
-        return userService.addUser(user);
+        try {
+            return userService.addUser(user);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     @RequestMapping("/makeBatchAddUserInfo")

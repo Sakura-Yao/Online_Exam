@@ -1,7 +1,7 @@
 package com.huade.controller;
 
-import com.huade.utils.GA;
 import com.huade.pojo.Paper;
+import com.huade.utils.GA;
 import com.huade.pojo.Rule;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -6,3 +6,11 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+
+file:
+  path:
+    configuration:
+      images: /Users/develop/Desktop/online_exam/file/image/
+      mode: /Users/develop/Desktop/Exam/file/mode/
+      file: /Users/develop/Desktop/online_exam/file/
+      bitchPath: /Users/develop/Desktop/online_exam/file/batch_files/

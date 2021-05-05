@@ -25,12 +25,18 @@ public class KnowledgeServiceImpl implements KnowledgeService {
 
     @Override
     public int deleteKnowledge(String Id) {
-        return knowledgeMapper.deleteKnowledge(Id);
+        Knowledge knowledge = knowledgeMapper.selectKnowledgeFromId(Id);
+        if (knowledge.getKwl_Level().equals("1")){
+            knowledgeMapper.deleteKnowledgeParentId(knowledge.getId());
+            return knowledgeMapper.deleteKnowledge(Id);
+        } else {
+            return knowledgeMapper.deleteKnowledge(Id);
+        }
     }
 
     @Override
-    public int updateKnowledge(Knowledge knowledge) {
-        return knowledgeMapper.updateKnowledge(knowledge);
+    public int updateKnowledge(String Id,String kwl_Name) {
+        return knowledgeMapper.updateKnowledge(Id, kwl_Name);
     }
 
     @Override

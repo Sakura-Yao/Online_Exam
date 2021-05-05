@@ -12,7 +12,7 @@ import java.util.Map;
 @Repository
 public interface UserMapper {
 
-    int addUser(User user);
+    int addUser(User user) throws Exception;
 
     int batchAddUser(List<Map<String ,Object>> userList) throws Exception;
 
@@ -25,4 +25,6 @@ public interface UserMapper {
     User Login(@Param("user_Id")String user_Id,
                @Param("password")String password);
 
+    int editPassword(@Param("user_Id")String user_Id,
+                     @Param("newPassword")String newPassword);
 }

@@ -1,6 +1,7 @@
 package com.huade.pojo;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 组卷规则，考试大纲
@@ -17,17 +18,26 @@ public class Rule {
     private double singleScore;
     private int completeNum;
     private double completeScore;
+    private int judgeNum;
+    private double judgeScore;
     private int subjectNum;
     private double subjectScore;
+    private int nounNum;
+    private double nounSore;
+    private int fillcodeNum;
+    private double fillcodeScore;
+    private int codingNum;
+    private double codingScore;
     private List<String> pointIds;
     private String rule_Time;
 
     public Rule() {
     }
 
-    public Rule(String id, String examId, String rule_Name, String cou_Id, double totalMark, double difficulty, int singleNum, double singleScore, int completeNum, double completeScore, int subjectNum, double subjectScore, List<String> pointIds, String rule_Time) {
-        Id = id;
-        this.examId = examId;
+
+    public Rule(String rule_Name, String cou_Id, double totalMark, double difficulty, int singleNum, double singleScore, int completeNum, double completeScore, int judgeNum, double judgeScore, int subjectNum, double subjectScore, int nounNum, double nounSore, int fillcodeNum, double fillcodeScore, int codingNum, double codingScore, List<String> pointIds, String rule_Time) {
+        this.Id = UUID.randomUUID().toString().replace("-","");
+        this.examId = UUID.randomUUID().toString().replace("-","");
         this.rule_Name = rule_Name;
         this.cou_Id = cou_Id;
         this.totalMark = totalMark;
@@ -36,10 +46,82 @@ public class Rule {
         this.singleScore = singleScore;
         this.completeNum = completeNum;
         this.completeScore = completeScore;
+        this.judgeNum = judgeNum;
+        this.judgeScore = judgeScore;
         this.subjectNum = subjectNum;
         this.subjectScore = subjectScore;
+        this.nounNum = nounNum;
+        this.nounSore = nounSore;
+        this.fillcodeNum = fillcodeNum;
+        this.fillcodeScore = fillcodeScore;
+        this.codingNum = codingNum;
+        this.codingScore = codingScore;
         this.pointIds = pointIds;
         this.rule_Time = rule_Time;
+    }
+
+    public int getJudgeNum() {
+        return judgeNum;
+    }
+
+    public void setJudgeNum(int judgeNum) {
+        this.judgeNum = judgeNum;
+    }
+
+    public double getJudgeScore() {
+        return judgeScore;
+    }
+
+    public void setJudgeScore(double judgeScore) {
+        this.judgeScore = judgeScore;
+    }
+
+    public int getNounNum() {
+        return nounNum;
+    }
+
+    public void setNounNum(int nounNum) {
+        this.nounNum = nounNum;
+    }
+
+    public double getNounSore() {
+        return nounSore;
+    }
+
+    public void setNounSore(double nounSore) {
+        this.nounSore = nounSore;
+    }
+
+    public int getFillcodeNum() {
+        return fillcodeNum;
+    }
+
+    public void setFillcodeNum(int fillcodeNum) {
+        this.fillcodeNum = fillcodeNum;
+    }
+
+    public double getFillcodeScore() {
+        return fillcodeScore;
+    }
+
+    public void setFillcodeScore(double fillcodeScore) {
+        this.fillcodeScore = fillcodeScore;
+    }
+
+    public int getCodingNum() {
+        return codingNum;
+    }
+
+    public void setCodingNum(int codingNum) {
+        this.codingNum = codingNum;
+    }
+
+    public double getCodingScore() {
+        return codingScore;
+    }
+
+    public void setCodingScore(double codingScore) {
+        this.codingScore = codingScore;
     }
 
     public String getRule_Time() {

@@ -1,13 +1,16 @@
 package com.huade.controller;
 
+import com.huade.Utils.LayuiMessage;
 import com.huade.pojo.*;
 import com.huade.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -41,10 +44,43 @@ public class BasicController {
         return classCourseInfoService.selectAllTeachCourse(user_Id,cou_Name,Integer.parseInt(current),Integer.parseInt(length));
     }
 
+    @RequestMapping("/xmCourses")
+    @ResponseBody
+    public ArrayList<XM_Courses> XMCourses(@RequestParam("user_Id")String user_Id,
+                                           @RequestParam("cou_Name")String cou_Name,
+                                           @RequestParam("current")String current,
+                                           @RequestParam("length")String length){
+        ArrayList<XM_Courses> res = new ArrayList<>();
+        List<View_Teacher_Class_Info> view_teacher_class_infos = classCourseInfoService.selectAllTeachCourse(user_Id, cou_Name, Integer.parseInt(current), Integer.parseInt(length));
+        for (View_Teacher_Class_Info item : view_teacher_class_infos) {
+            XM_Courses res_item = new XM_Courses();
+            res_item.setName(item.getCou_Name());
+            res_item.setValue(item.getCou_Id());
+            res_item.setSelected(false);
+            res.add(res_item);
+        }
+        return res;
+    }
+
     @RequestMapping("/selectAllTeachClasses")
     @ResponseBody
     public List<View_Teacher_Class_Info> SelectAllTeachClasses(@RequestParam("user_Id")String user_Id){
         return classCourseInfoService.selectAllTeachClasses(user_Id);
+    }
+
+    @RequestMapping("/xmClasses")
+    @ResponseBody
+    public ArrayList<XM_Classes> XMClasses(@RequestParam("user_Id")String user_Id){
+        List<View_Teacher_Class_Info> view_teacher_class_infos = classCourseInfoService.selectAllTeachClasses(user_Id);
+        ArrayList<XM_Classes> res = new ArrayList<>();
+        for (View_Teacher_Class_Info view_teacher_class_info : view_teacher_class_infos) {
+            XM_Classes res_item = new XM_Classes();
+            res_item.setName(view_teacher_class_info.getClass_Id());
+            res_item.setValue(view_teacher_class_info.getClass_Id());
+            res_item.setSelected(false);
+            res.add(res_item);
+        }
+        return res;
     }
 
     @RequestMapping("/selectAllKnowledge")
@@ -89,4 +125,13 @@ public class BasicController {
                                              @RequestParam("length")String length){
         return classInfoService.selectClassInfo(Id,cou_Id,spe_Id,Integer.parseInt(current),Integer.parseInt(length));
     }
+
+    @RequestMapping(value = "/testSelectInfo",method = RequestMethod.GET)
+    @ResponseBody
+    public LayuiMessage test(@RequestParam(required = false,defaultValue = "1") Integer page, @RequestParam(required = false,defaultValue = "15") Integer limit){
+        return classInfoService.getClassinfoList(page, limit);
+    }
+
+
+
 }

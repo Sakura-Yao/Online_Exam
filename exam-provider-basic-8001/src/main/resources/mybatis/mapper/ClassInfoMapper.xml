@@ -50,7 +50,7 @@
                 and Id =#{Id}
             </if>
             <if test="class_Id != null and class_Id != ''">
-                and class_Id = #{class_Id}
+                and class_Id like "%"#{class_Id}"%"
             </if>
             <if test="col_Id != null and col_Id != ''">
                 and col_Id =#{col_Id}
@@ -107,4 +107,16 @@
             </if>
         </where>
     </select>
+
+    <select id="getClassinfoList" resultType="View_ClassInfo">
+        select *
+        from online_exam.view_class_info
+        limit #{page},#{limit}
+    </select>
+
+    <select id="getAllClassinfoList" resultType="View_ClassInfo">
+        select *
+        from online_exam.view_class_info
+    </select>
+
 </mapper>

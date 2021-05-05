@@ -31,7 +31,6 @@ public class Population {
      * @param initFlag       初始化标志 true-初始化
      * @param rule           规则bean
      */
-
     public void Population(int populationSize, boolean initFlag, Rule rule){
         papers = new Paper[populationSize];
         if (initFlag) {
@@ -55,8 +54,28 @@ public class Population {
                     }
                     //主观题
                     if (rule.getSubjectNum() > 0) {
-                        generateQuestion(rule,"1996a697e26a4453a80900a82c1df699", random, rule.getSubjectNum(), rule.getSingleScore(), idString,
-                                "编程题数量不够，组卷失败", paper);
+                        generateQuestion(rule,"a3514b0394a940cea19d5e1ef74b041f", random, rule.getSubjectNum(), rule.getSingleScore(), idString,
+                                "主观题数量不够，组卷失败", paper);
+                    }
+                    //判断题
+                    if (rule.getJudgeNum() > 0) {
+                        generateQuestion(rule,"b5046eea8c484ec8ab011da3a650a1e5",random,rule.getJudgeNum(),rule.getJudgeScore(),idString,
+                                "判断题数量不够，组卷失败",paper);
+                    }
+                    //名词解释
+                    if (rule.getNounNum() > 0) {
+                        generateQuestion(rule,"3eb9b37cff394f3fa9a1a052e1685105",random,rule.getNounNum(), rule.getNounSore(),idString,
+                                "名词解释题数量不够，组卷失败",paper);
+                    }
+                    //程序填空
+                    if (rule.getFillcodeNum() > 0) {
+                        generateQuestion(rule,"fd09a3873f184169b4fd335934078123",random,rule.getFillcodeNum(),rule.getFillcodeScore(),idString,
+                                "程序填空题数量不够，组卷失败",paper);
+                    }
+                    //编程题
+                    if (rule.getCodingNum() > 0) {
+                        generateQuestion(rule,"1996a697e26a4453a80900a82c1df699",random, rule.getCodingNum(),rule.getCodingScore(),idString,
+                                "编程题数量不够，组卷失败",paper);
                     }
                     paper.getTotalScore(rule);
                 }
@@ -86,7 +105,7 @@ public class Population {
     }
 
     /**
-     * 获取种群中最优秀的个体
+     * 获取种群中最优秀的个体 - 精英主义
      */
     public Paper getFitness(){
         Paper paper = papers[0];

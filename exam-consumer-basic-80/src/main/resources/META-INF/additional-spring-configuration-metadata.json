@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "FilePathConfiguration.images",
+      "type": "java.lang.String",
+      "description": "Description for FilePathConfiguration.images."
+  }
+] }

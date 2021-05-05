@@ -13,9 +13,9 @@
         delete from online_exam.knowledge where Id=#{Id}
     </delete>
 
-    <update id="updateKnowledge" parameterType="Knowledge">
+    <update id="updateKnowledge" parameterType="String">
         update online_exam.knowledge
-        set cou_Id=#{cou_Id},kwl_Level=#{kwl_Level},chapter_Num=#{chapter_Num},section_Num=#{section_Num},parent_Id=#{parent_Id}
+        set kwl_Name = #{kwl_Name}
         where Id=#{Id}
     </update>
 
@@ -51,6 +51,16 @@
             LIMIT #{current},#{length};
         </if>
     </select>
+
+    <select id="selectKnowledgeFromId" resultType="Knowledge">
+        select * from online_exam.knowledge
+        where Id = #{Id}
+    </select>
+
+    <delete id="deleteKnowledgeParentId" parameterType="String">
+        delete from online_exam.knowledge
+        where parent_Id = #{parent_Id}
+    </delete>
 
 
 </mapper>

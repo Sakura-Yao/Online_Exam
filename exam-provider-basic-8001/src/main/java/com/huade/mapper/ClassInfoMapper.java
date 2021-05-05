@@ -49,4 +49,8 @@ public interface ClassInfoMapper {
                                 @Param("people_Num")String people_Num);
 
     int updateClassStudentsCount();
+
+    List getClassinfoList(@Param("page") int page, @Param("limit") int limit);
+
+    List getAllClassinfoList();
 }

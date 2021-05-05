@@ -19,7 +19,18 @@ public class LoginController {
     @RequestMapping("/UserLogin")
     @ResponseBody
     public Object UserLogin(@RequestParam("user_Id")String user_Id, @RequestParam("password")String password){
-        return userService.Login(user_Id, UtilTools.Encrypted_MD5(password));
+        return userService.Login(user_Id, password);
+    }
+
+    @RequestMapping("/EditPassword")
+    @ResponseBody
+    public int EditPassword(@RequestParam("user_Id")String user_Id,
+                            @RequestParam("oldPassword")String oldPassword,
+                            @RequestParam("newPassword")String newPassword){
+        if (userService.Login(user_Id,oldPassword) != null && newPassword != null){
+            return userService.editPassword(user_Id, newPassword);
+        } else
+            return 0;
     }
 
 

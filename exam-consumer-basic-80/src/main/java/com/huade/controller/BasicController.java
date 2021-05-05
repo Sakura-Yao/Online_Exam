@@ -2,6 +2,8 @@ package com.huade.controller;
 
 import com.huade.pojo.View_Knowledge;
 import com.huade.pojo.View_Teacher_Class_Info;
+import com.huade.pojo.XM_Classes;
+import com.huade.pojo.XM_Courses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -38,12 +41,34 @@ public class BasicController {
         return restTemplate.postForObject(REST_URL_PREFIX + "/selectAllTeachCourse", param, List.class);
     }
 
+    @RequestMapping("/xmCourses")
+    @ResponseBody
+    public ArrayList<XM_Courses> XMCourses(@RequestParam("user_Id")String user_Id,
+                                           @RequestParam("cou_Name")String cou_Name,
+                                           @RequestParam("current")String current,
+                                           @RequestParam("length")String length){
+        MultiValueMap<String, Object> param = new LinkedMultiValueMap<>();
+        param.add("user_Id",user_Id);
+        param.add("cou_Name",cou_Name);
+        param.add("current",current);
+        param.add("length",length);
+        return restTemplate.postForObject(REST_URL_PREFIX+"/xmCourses",param,ArrayList.class);
+    }
+
     @RequestMapping("/selectAllTeachClasses")
     @ResponseBody
     public List<View_Teacher_Class_Info> SelectAllTeachClasses(@RequestParam("user_Id")String user_Id){
         MultiValueMap<String, Object> param = new LinkedMultiValueMap<>();
         param.add("user_Id",user_Id);
         return restTemplate.postForObject(REST_URL_PREFIX+"/selectAllTeachClasses",param,List.class);
+    }
+
+    @RequestMapping("/xmClasses")
+    @ResponseBody
+    public List<XM_Classes> XMClasses(@RequestParam("user_Id")String user_Id){
+        MultiValueMap<String, Object> param = new LinkedMultiValueMap<>();
+        param.add("user_Id",user_Id);
+        return restTemplate.postForObject(REST_URL_PREFIX+"/xmClasses",param,List.class);
     }
 
     @RequestMapping("/selectKnowledge")
@@ -120,4 +145,6 @@ public class BasicController {
         }
         return null;
     }
+
+
 }

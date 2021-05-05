@@ -15,4 +15,9 @@ public class TestUEditorTests {
     public void t1(){
         System.out.println(testUEditorService.selectTestInfo(""));
     }
+
+    @Test
+    public void t2(){
+        System.out.println();
+    }
 }

@@ -11,7 +11,7 @@ public interface KnowledgeService {
 
     int deleteKnowledge(String Id);
 
-    int updateKnowledge(Knowledge knowledge);
+    int updateKnowledge(String Id,String kwl_Name);
 
     List<View_Knowledge> selectAllKnowledge (int current, int length);
 

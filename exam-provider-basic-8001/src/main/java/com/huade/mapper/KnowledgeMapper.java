@@ -16,7 +16,8 @@ public interface KnowledgeMapper {
 
     int deleteKnowledge(@Param("Id")String Id);
 
-    int updateKnowledge(Knowledge knowledge);
+    int updateKnowledge(@Param("Id")String Id,
+                        @Param("kwl_Name")String kwl_Name);
 
     List<View_Knowledge> selectAllKnowledge (@Param("current")int current, @Param("length") int length);
 
@@ -27,4 +28,7 @@ public interface KnowledgeMapper {
                                      @Param("section_Num")String section_Num,
                                      @Param("current")int current, @Param("length")int length);
 
+    Knowledge selectKnowledgeFromId(@Param("Id")String Id);
+
+    int deleteKnowledgeParentId(@Param("parent_Id")String parent_Id);
 }

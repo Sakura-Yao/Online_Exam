@@ -1,5 +1,6 @@
 package com.huade.service;
 
+import com.huade.Utils.LayuiMessage;
 import com.huade.Utils.UpdatePeopleCount;
 import com.huade.mapper.ClassInfoMapper;
 import com.huade.pojo.ClassInfo;
@@ -15,6 +16,8 @@ public class ClassInfoServiceImpl implements ClassInfoService {
 
     @Autowired
     private ClassInfoMapper classInfoMapper;
+
+    private LayuiMessage ls = new LayuiMessage();
 
     public void setClassInfoMapper(ClassInfoMapper classInfoMapper) {
         this.classInfoMapper = classInfoMapper;
@@ -80,4 +83,18 @@ public class ClassInfoServiceImpl implements ClassInfoService {
         return classInfoMapper.updateClassStudentCount(Id, people_Num);
     }
 
+    @Override
+    public LayuiMessage getClassinfoList(int page, int limit) {
+        List classinfoList = classInfoMapper.getClassinfoList((page - 1) * limit, limit);
+        List allClassinfoList = classInfoMapper.getAllClassinfoList();
+        ls.setCode(0);
+        ls.setCount(allClassinfoList.size());
+        ls.setData(classinfoList);
+        ls.setMsg("");
+        if(allClassinfoList.size() == 0){
+            ls.setMsg("无数据");
+        }
+
+        return ls;
+    }
 }

@@ -2,9 +2,7 @@ package com.huade.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONPObject;
-import com.huade.utils.UtilsTools;
-import org.apache.catalina.connector.Response;
+import com.huade.config.FilePathConfiguration;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +20,7 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 @Controller
@@ -30,22 +29,35 @@ public class FileController {
     @Autowired
     private RestTemplate restTemplate;
 
-    private static final String UPLOAD_IMAGE_REALPATH = "/Users/develop/Desktop/online_exam/file/image/";
-    private static final String FILE_REALPATH = "/Users/develop/Desktop/online_exam/file/";
-    private static final String BATCH_FILE_REALPATH = "/Users/develop/Desktop/online_exam/file/batch_files/";
+    @Autowired
+    private FilePathConfiguration filePathConfiguration;
 
-//    @RequestMapping(value="/uploadImage",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+//    private static final String UPLOAD_IMAGE_REALPATH = "/Users/develop/Desktop/online_exam/file/image/";
+//    private static final String FILE_REALPATH = "/Users/develop/Desktop/online_exam/file/";
+//    private static final String BATCH_FILE_REALPATH = "/Users/develop/Desktop/online_exam/file/batch_files/";
+
+//    private static final String UPLOAD_IMAGE_REALPATH = "/home/www/file/image";
+//    private static final String FILE_REALPATH = "/home/www/file/";
+//    private static final String BATCH_FILE_REALPATH = "/home/www/file/batch_files/";
+
+//    private final String UPLOAD_IMAGE_REALPATH = filePathConfiguration.getImages();
+//    private final String FILE_REALPATH = filePathConfiguration.getFile();
+//    private final String BATCH_FILE_REALPATH = filePathConfiguration.getBitchPath();
+
+
+    //    @RequestMapping(value="/uploadImage",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping("/uploadImage")
     @ResponseBody
-    public Map<String,Object> uploadImage(MultipartFile upfile) throws IOException {
-        Map<String,Object> map = new HashMap<String,Object>();
-        String realName = null;
-        String uuidName = null;
-        String realPath = null;
+    public Map<String,Object> uploadImage(MultipartFile upfile) {
+        Map<String,Object> map = new HashMap<>();
+        String realName;
+        String uuidName;
+        String realPath;
         try {
-            realName = getRealName(upfile.getOriginalFilename());
+            realName = getRealName(Objects.requireNonNull(upfile.getOriginalFilename()));
             uuidName = getUUIDFileName(upfile.getOriginalFilename());
-            realPath = UPLOAD_IMAGE_REALPATH;
+//            realPath = UPLOAD_IMAGE_REALPATH;
+            realPath = filePathConfiguration.getImages();
             InputStream in = new BufferedInputStream(upfile.getInputStream());
             OutputStream out = new BufferedOutputStream(new FileOutputStream(new File(realPath,uuidName)));
             //读写
@@ -128,10 +140,10 @@ public class FileController {
             return null;
         }
         String fileName = file.getOriginalFilename();
-        String filePath = BATCH_FILE_REALPATH;
+//        String filePath = BATCH_FILE_REALPATH;
+        String filePath = filePathConfiguration.getBitchPath();
         String uuid = UUID.randomUUID().toString().replace("-","");
         File dest = new File(filePath + uuid + fileName);
-
         try {
             file.transferTo(dest);
             return filePath + uuid + fileName;
@@ -164,6 +176,7 @@ public class FileController {
      */
     @RequestMapping("/makeBatchClassInfoMode")
     public String makeBatchClassInfoMode(HttpServletResponse response) throws Exception{
+        System.out.println(filePathConfiguration);
         String filePath = "/Users/develop/Desktop/online_exam/file/batch_mode/classInfo.xlsx";
         String fileName = "批量添加班级信息模版.xlsx";
         MultiValueMap<String, Object> param = new LinkedMultiValueMap<>();
@@ -178,8 +191,8 @@ public class FileController {
 
         //设置响应头
         response.setHeader("Content-Disposition","attachment;fileName="+ URLEncoder.encode(fileName,"UTF-8"));
-        File file = new File(FILE_REALPATH,fileName);
-
+//        File file = new File(FILE_REALPATH,fileName);
+        File file = new File(filePathConfiguration.getFile(),fileName);
         //读取文件--输入流
         InputStream inputStream = new FileInputStream(file);
         OutputStream outputStream = response.getOutputStream();
@@ -217,8 +230,8 @@ public class FileController {
 
         //设置响应头
         response.setHeader("Content-Disposition","attachment;fileName="+ URLEncoder.encode(fileName,"UTF-8"));
-        File file = new File(FILE_REALPATH,fileName);
-
+//        File file = new File(FILE_REALPATH,fileName);
+        File file = new File(filePathConfiguration.getFile(),fileName);
         //读取文件--输入流
         InputStream inputStream = new FileInputStream(file);
         OutputStream outputStream = response.getOutputStream();
@@ -256,8 +269,8 @@ public class FileController {
 
         //设置响应头
         response.setHeader("Content-Disposition","attachment;fileName="+ URLEncoder.encode(fileName,"UTF-8"));
-        File file = new File(FILE_REALPATH,fileName);
-
+//        File file = new File(FILE_REALPATH,fileName);
+        File file = new File(filePathConfiguration.getFile(),fileName);
         //读取文件--输入流
         InputStream inputStream = new FileInputStream(file);
         OutputStream outputStream = response.getOutputStream();
@@ -274,7 +287,7 @@ public class FileController {
     }
 
     /**
-     * 批量添加课程信息
+     * 批量添加班级信息
      * @param file
      * @return
      */
@@ -357,8 +370,8 @@ public class FileController {
     @RequestMapping("/download")
     public String downloads(HttpServletResponse response,
                             @Param("fileName")String fileName) throws Exception{
-        String path = FILE_REALPATH;
-
+//        String path = FILE_REALPATH;
+        String path = filePathConfiguration.getFile();
         //设置response响应头
         response.reset();
         response.setCharacterEncoding("UTF-8");

@@ -37,10 +37,14 @@ public class Teacher_basicController {
                             @RequestParam("specialty_Id")String specialty_Id) {
         User user = new User(user_Id, UtilTools.Encrypted_MD5(password),user_Name,user_Type,user_Sex,user_Mobile);
         Teacher_Basic teacher_Basic = new Teacher_Basic(user_Id,college_Id,specialty_Id);
-        if (userService.addUser(user) == 1 && teacherBasicService.addTeacherBasicInfo(teacher_Basic)==1){
-            return 1;
-        }
-        else {
+        try {
+            if (userService.addUser(user) == 1 && teacherBasicService.addTeacherBasicInfo(teacher_Basic)==1){
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        } catch (Exception e) {
             return 0;
         }
     }

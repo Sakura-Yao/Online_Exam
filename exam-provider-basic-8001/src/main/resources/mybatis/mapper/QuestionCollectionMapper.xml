@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huade.mapper.QuestionCollectionMapper">
+
+    <insert id="addQuestionCollectionInfo" parameterType="QuestionCollection">
+        insert into online_exam.question_collection(id, user_Id, question_Id) VALUES
+        (#{id},#{user_Id},#{question_Id})
+    </insert>
+
+    <delete id="deleteQuestionCollectionInfo" parameterType="String">
+        delete from online_exam.question_collection
+        where user_Id=#{user_Id} and question_Id = #{question_Id}
+    </delete>
+
+    <select id="selectQuestionCollectionInfos" resultType="View_Question_Info">
+        select online_exam.view_question_info.* from online_exam.question_collection,online_exam.view_question_info
+        <where>
+            view_question_info.Id = question_collection.question_Id
+            <if test="user_Id != null and user_Id != ''">
+                and user_Id = #{user_Id}
+            </if>
+            <if test="cou_Id != null and cou_Id != ''">
+                and cou_Id = #{cou_Id}
+            </if>
+            <if test="type_Id != null and type_Id != ''">
+                and type_Id = #{type_Id}
+            </if>
+        </where>
+        <if test="current != 0 and length != 0">
+            LIMIT #{current},#{length};
+        </if>
+    </select>
+
+    <select id="verificationQuestionCollection" resultType="Integer">
+        select count(*) from online_exam.question_collection
+        where user_Id=#{user_Id} and question_Id=#{question_Id}
+    </select>
+
+    <select id="ShowCount" resultType="String">
+        select count(*) from online_exam.question_collection
+        <where>
+            <if test="user_Id != null and user_Id != ''">
+                and user_Id = #{user_Id}
+            </if>
+            <if test="cou_Id != null and cou_Id != ''">
+                and cou_Id = #{cou_Id}
+            </if>
+            <if test="type_Id != null and type_Id != ''">
+                and type_Id = #{type_Id}
+            </if>
+        </where>
+    </select>
+
+</mapper>

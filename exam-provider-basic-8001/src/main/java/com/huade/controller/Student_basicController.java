@@ -38,10 +38,14 @@ public class Student_basicController {
                                  @RequestParam("stu_Specialty")String stu_Specialty){
             User user = new User(user_Id, UtilTools.Encrypted_MD5(password),user_Name,user_Type,user_Sex,user_Mobile);
             Student_Basic student_basic = new Student_Basic(user_Id,stu_ClassId,stu_College,stu_Specialty);
+        try {
             if ( userService.addUser(user) == 1 && studentBasicService.addStudentBasic(student_basic) == 1)
                 return 1;
             else
                 return 0;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     @RequestMapping("/deleteStudentBasic")

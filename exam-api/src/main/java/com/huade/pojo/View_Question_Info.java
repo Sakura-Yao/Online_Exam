@@ -176,4 +176,7 @@ public class View_Question_Info {
         this.kwl_Name = kwl_Name;
         this.analysis = analysis;
     }
+
+    public View_Question_Info() {
+    }
 }

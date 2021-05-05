@@ -1,5 +1,6 @@
 package com.huade.service;
 
+import com.huade.Utils.UtilTools;
 import com.huade.mapper.UserMapper;
 import com.huade.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper mapper;
 
-    public int addUser(User user) {
+    public int addUser(User user) throws Exception {
         return mapper.addUser(user);
     }
 
@@ -35,6 +36,11 @@ public class UserServiceImpl implements UserService {
     }
 
     public User Login(String user_Id, String password) {
-        return mapper.Login(user_Id, password);
+        return mapper.Login(user_Id, UtilTools.Encrypted_MD5(password));
+    }
+
+    @Override
+    public int editPassword(String user_Id, String newPassword) {
+        return mapper.editPassword(user_Id, UtilTools.Encrypted_MD5(newPassword));
     }
 }
