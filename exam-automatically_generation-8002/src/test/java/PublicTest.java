@@ -84,8 +84,4 @@ public class PublicTest {
             System.out.println();
         }
     }
-    @Test
-    void t4(){
-        System.out.println("123123");
-    }
 }
